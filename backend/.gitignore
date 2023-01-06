@@ -1,0 +1,7 @@
+/node_modules
+/build
+.vscode
+.env.development
+.env.production
+.env
+service.json

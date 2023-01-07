@@ -1,11 +1,15 @@
 import { model, Schema } from "mongoose";
 
-const AdminSchema = new Schema(
+const UserSchema = new Schema(
   {
     id: {
       type: Schema.Types.ObjectId,
     },
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
       type: String,
       required: true,
     },
@@ -18,8 +22,12 @@ const AdminSchema = new Schema(
       type: String,
       required: true,
     },
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
   },
   { timestamps: true }
 );
 
-export default model("Admin", AdminSchema);
+export default model("User", UserSchema);

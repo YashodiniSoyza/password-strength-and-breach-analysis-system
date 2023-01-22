@@ -20,6 +20,7 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
+  IconShieldLock,
 } from "@tabler/icons";
 import { IconEdit, IconTrash } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
@@ -425,8 +426,11 @@ const ManageAdmins: React.FC = () => {
   const rows = sortedData.map((row) => (
     <tr key={row.id} style={{ textAlign: "left" }}>
       <td>
-        {" "}
         <Badge variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+          <IconShieldLock
+            size={14}
+            style={{ marginRight: "5px", marginBottom: "-2px" }}
+          />
           {row.adminId}
         </Badge>
       </td>

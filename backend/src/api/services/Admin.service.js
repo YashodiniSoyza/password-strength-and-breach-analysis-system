@@ -4,6 +4,17 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const createAdmin = async (adminObj) => {
+  const lastAdmin = await admin.findOne().sort({ _id: -1 });
+  if (lastAdmin) {
+    const lastAdminId = lastAdmin.adminId;
+    const lastAdminIdNumber = parseInt(lastAdminId.slice(6, 9));
+    const newAdminIdNumber = lastAdminIdNumber + 1;
+    const newAdminId = "ADMIN" + newAdminIdNumber.toString().padStart(3, "0");
+    adminObj.adminId = newAdminId;
+  } else {
+    adminObj.adminId = "ADMIN001";
+  }
+
   const emailExists = await admin.findOne({ email: adminObj.email });
   if (emailExists) {
     throw new Error("Email already exists");
@@ -36,14 +47,14 @@ export const getAdmin = async (id) => {
 };
 
 export const getAllAdmins = async () => {
-  return await admin
-    .find()
-    .then((data) => {
+  //exclude password from the response
+  return await admin.find({}, { password: 0 }).then((data) => {
+    if (data) {
       return data;
-    })
-    .catch((err) => {
-      throw new Error(err.message);
-    });
+    } else {
+      throw new Error("No Admins found");
+    }
+  });
 };
 
 export const updateAdmin = async (id, adminObj) => {

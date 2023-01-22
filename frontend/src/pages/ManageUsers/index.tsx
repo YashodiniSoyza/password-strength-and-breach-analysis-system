@@ -5,7 +5,7 @@ const ManageUsers: React.FC = () => {
   return (
     <Flex
       gap="xs"
-      justify="flex-start"
+      justify="space-between"
       align="flex-start"
       direction="row"
       wrap="wrap"

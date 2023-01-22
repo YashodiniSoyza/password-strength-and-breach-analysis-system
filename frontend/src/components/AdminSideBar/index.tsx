@@ -104,7 +104,6 @@ const CustomLink: React.FC<{ to: string; item: any }> = ({ to, item }) => {
   const { classes, cx } = useStyles();
   const resolvedPath = useResolvedPath(to);
   const match = useMatch({ path: resolvedPath.pathname, end: true });
-  console.log(match);
 
   return (
     <Link
@@ -130,7 +129,7 @@ const AdminSideBar: React.FC = () => {
   const admin = JSON.parse(localStorage.getItem("admin") || "{}");
 
   return (
-    <Navbar height={"100%"} width={{ sm: 300 }} p="md">
+    <Navbar height={"100%"} width={{ sm: "20%" }} p="md">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <img src={LOGO} alt="logo" width="50" height="50" />
@@ -144,7 +143,7 @@ const AdminSideBar: React.FC = () => {
           image={DEFAULTPROFILE}
           name={admin.name}
           email={admin.email}
-          icon={<IconShieldLock/>}
+          icon={<IconShieldLock />}
         />
         <Link to="/logout" className={classes.link}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />

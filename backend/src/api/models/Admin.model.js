@@ -5,6 +5,11 @@ const AdminSchema = new Schema(
     id: {
       type: Schema.Types.ObjectId,
     },
+    adminId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,

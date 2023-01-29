@@ -4,6 +4,17 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 export const createUser = async (userObj) => {
+  const lastUser = await user.findOne().sort({ _id: -1 });
+  if (lastUser) {
+    const lastUserId = lastUser.userId;
+    const lastUserIdNumber = parseInt(lastUserId.substring(4));
+    const newUserIdNumber = lastUserIdNumber + 1;
+    const newUserId = "USER" + newUserIdNumber;
+    userObj.userId = newUserId;
+  } else {
+    userObj.userId = "USER1000000001";
+  }
+
   const emailExists = await user.findOne({ email: userObj.email });
   if (emailExists) {
     throw new Error("Email already exists");

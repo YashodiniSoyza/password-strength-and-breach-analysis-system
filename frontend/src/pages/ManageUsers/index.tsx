@@ -1,4 +1,7 @@
-import { AdminSideBar } from "../../components";
+import {
+  AdminSideBar,
+  ManageUsers as ManageUsersComponent,
+} from "../../components";
 import { Flex } from "@mantine/core";
 
 const ManageUsers: React.FC = () => {
@@ -12,7 +15,7 @@ const ManageUsers: React.FC = () => {
       style={{ height: "100vh" }}
     >
       <AdminSideBar />
-      <h1>Manage Users</h1>
+      <ManageUsersComponent />
     </Flex>
   );
 };

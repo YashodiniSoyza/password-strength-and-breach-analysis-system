@@ -5,6 +5,11 @@ const UserSchema = new Schema(
     id: {
       type: Schema.Types.ObjectId,
     },
+    userId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     firstName: {
       type: String,
       required: true,

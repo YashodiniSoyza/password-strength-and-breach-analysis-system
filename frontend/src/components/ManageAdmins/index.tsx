@@ -401,7 +401,8 @@ const ManageAdmins: React.FC = () => {
   const openDeleteModal = (id: string) =>
     openConfirmModal({
       title: "Delete this admin record?",
-      centered: true,
+      centered: false,
+      zIndex: 1000,
       children: (
         <Text size="sm">
           Are you sure you want to delete this admin record? This action cannot
@@ -478,6 +479,7 @@ const ManageAdmins: React.FC = () => {
           setOpened(false);
         }}
         title="Add Administator"
+        zIndex={1000}
       >
         <form onSubmit={addForm.onSubmit((values) => addAdmin(values))}>
           <TextInput
@@ -514,6 +516,7 @@ const ManageAdmins: React.FC = () => {
           setEditOpened(false);
         }}
         title="Edit Administator"
+        zIndex={1000}
       >
         <form onSubmit={editForm.onSubmit((values) => editAdmin(values))}>
           <input

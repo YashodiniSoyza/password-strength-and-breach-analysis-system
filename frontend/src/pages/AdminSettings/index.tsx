@@ -9,7 +9,6 @@ import {
   Progress,
   TextInput,
   Text,
-  Title,
   Card,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";

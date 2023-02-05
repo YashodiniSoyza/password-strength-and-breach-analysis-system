@@ -44,7 +44,7 @@ const AdminDashboard: React.FC = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          width: "79%",
+          width: "79vw",
         }}
       >
         <StatsGrid data={data} />

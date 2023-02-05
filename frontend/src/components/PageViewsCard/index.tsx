@@ -85,7 +85,7 @@ const PageViewsCard: React.FC<PageViewsCardProps> = ({ total, diff, data }) => {
   ));
 
   return (
-    <Paper withBorder p="md" radius="md" style={{ width: "90%" }}>
+    <Paper withBorder p="md" radius="md" style={{ width: "98%" }}>
       <Group position="apart">
         <Group align="flex-end" spacing="xs">
           <Text size="xl" weight={700}>

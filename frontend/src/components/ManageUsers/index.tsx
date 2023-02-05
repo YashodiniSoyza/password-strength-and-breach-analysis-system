@@ -12,6 +12,7 @@ import {
   Button,
   Modal,
   Badge,
+  Card,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -503,197 +504,212 @@ const ManageUsers: React.FC = () => {
 
   return (
     <Box
-      sx={{ display: "flex", justifyContent: "space-between", width: "79%" }}
+      sx={{
+        width: "79%",
+        height: "96vh",
+      }}
     >
-      <Modal
-        opened={opened}
-        onClose={() => {
-          addForm.reset();
-          setOpened(false);
+      <Card
+        shadow="sm"
+        radius="md"
+        withBorder
+        m="xs"
+        style={{
+          overflowY: "scroll",
+          overflowX: "hidden",
+          height: "100%",
         }}
-        title="Add User"
-        zIndex={1000}
       >
-        <form onSubmit={addForm.onSubmit((values) => addUser(values))}>
-          <TextInput
-            label="First Name"
-            placeholder="Enter first name"
-            {...addForm.getInputProps("firstName")}
-            required
-          />
-          <TextInput
-            label="Last Name"
-            placeholder="Enter last name"
-            {...addForm.getInputProps("lastName")}
-            required
-          />
-          <TextInput
-            label="Email"
-            placeholder="Enter email"
-            {...addForm.getInputProps("email")}
-            required
-          />
-          <TextInput
-            label="Date of Birth"
-            placeholder="Enter date of birth"
-            {...addForm.getInputProps("dateOfBirth")}
-            required
-          />
-          <Button
-            color="teal"
-            sx={{ marginTop: "10px", width: "100%" }}
-            type="submit"
-          >
-            Add
-          </Button>
-        </form>
-      </Modal>
-      <Modal
-        opened={editOpened}
-        onClose={() => {
-          editForm.reset();
-          setEditOpened(false);
-        }}
-        title="Edit User"
-        zIndex={1000}
-      >
-        <form onSubmit={editForm.onSubmit((values) => EditUser(values))}>
-          <input
-            placeholder="Enter ID"
-            disabled
-            {...editForm.getInputProps("id")}
-            required
-            hidden={true}
-          />
-          <TextInput
-            label="User ID"
-            placeholder="Enter User ID"
-            disabled
-            {...editForm.getInputProps("userId")}
-            required
-          />
-          <TextInput
-            label="First Name"
-            placeholder="Enter first name"
-            {...editForm.getInputProps("firstName")}
-            required
-          />
-          <TextInput
-            label="Last Name"
-            placeholder="Enter last name"
-            {...editForm.getInputProps("lastName")}
-            required
-          />
-          <TextInput
-            label="Email"
-            placeholder="Enter email"
-            {...editForm.getInputProps("email")}
-            required
-          />
-          <TextInput
-            label="Date of Birth"
-            placeholder="Enter date of birth"
-            {...editForm.getInputProps("dateOfBirth")}
-            required
-          />
-          <Button
-            color="teal"
-            sx={{ marginTop: "10px", width: "100%" }}
-            type="submit"
-          >
-            Save
-          </Button>
-        </form>
-      </Modal>
-      <Box sx={{ margin: "20px", width: "100%" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <TextInput
-            placeholder="Search by any field"
-            mb="md"
-            icon={<IconSearch size={14} stroke={1.5} />}
-            value={search}
-            onChange={handleSearchChange}
-            sx={{ width: "300px" }}
-          />
-          <Button
-            variant="gradient"
-            gradient={{ from: "indigo", to: "cyan" }}
-            sx={{ width: "200px", marginRight: "20px" }}
-            onClick={() => setOpened(true)}
-          >
-            Add User
-          </Button>
+        <Modal
+          opened={opened}
+          onClose={() => {
+            addForm.reset();
+            setOpened(false);
+          }}
+          title="Add User"
+          zIndex={1000}
+        >
+          <form onSubmit={addForm.onSubmit((values) => addUser(values))}>
+            <TextInput
+              label="First Name"
+              placeholder="Enter first name"
+              {...addForm.getInputProps("firstName")}
+              required
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Enter last name"
+              {...addForm.getInputProps("lastName")}
+              required
+            />
+            <TextInput
+              label="Email"
+              placeholder="Enter email"
+              {...addForm.getInputProps("email")}
+              required
+            />
+            <TextInput
+              label="Date of Birth"
+              placeholder="Enter date of birth"
+              {...addForm.getInputProps("dateOfBirth")}
+              required
+            />
+            <Button
+              color="teal"
+              sx={{ marginTop: "10px", width: "100%" }}
+              type="submit"
+            >
+              Add
+            </Button>
+          </form>
+        </Modal>
+        <Modal
+          opened={editOpened}
+          onClose={() => {
+            editForm.reset();
+            setEditOpened(false);
+          }}
+          title="Edit User"
+          zIndex={1000}
+        >
+          <form onSubmit={editForm.onSubmit((values) => EditUser(values))}>
+            <input
+              placeholder="Enter ID"
+              disabled
+              {...editForm.getInputProps("id")}
+              required
+              hidden={true}
+            />
+            <TextInput
+              label="User ID"
+              placeholder="Enter User ID"
+              disabled
+              {...editForm.getInputProps("userId")}
+              required
+            />
+            <TextInput
+              label="First Name"
+              placeholder="Enter first name"
+              {...editForm.getInputProps("firstName")}
+              required
+            />
+            <TextInput
+              label="Last Name"
+              placeholder="Enter last name"
+              {...editForm.getInputProps("lastName")}
+              required
+            />
+            <TextInput
+              label="Email"
+              placeholder="Enter email"
+              {...editForm.getInputProps("email")}
+              required
+            />
+            <TextInput
+              label="Date of Birth"
+              placeholder="Enter date of birth"
+              {...editForm.getInputProps("dateOfBirth")}
+              required
+            />
+            <Button
+              color="teal"
+              sx={{ marginTop: "10px", width: "100%" }}
+              type="submit"
+            >
+              Save
+            </Button>
+          </form>
+        </Modal>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <TextInput
+              placeholder="Search by any field"
+              mb="md"
+              icon={<IconSearch size={14} stroke={1.5} />}
+              value={search}
+              onChange={handleSearchChange}
+              sx={{ width: "300px" }}
+            />
+            <Button
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan" }}
+              sx={{ width: "200px", marginRight: "20px" }}
+              onClick={() => setOpened(true)}
+            >
+              Add User
+            </Button>
+          </Box>
+          <ScrollArea>
+            <Table
+              horizontalSpacing="md"
+              verticalSpacing="xs"
+              sx={{ tableLayout: "auto", width: "100%" }}
+            >
+              <thead>
+                <tr>
+                  <Th
+                    sorted={sortBy === "id"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("id")}
+                  >
+                    User ID
+                  </Th>
+                  <Th
+                    sorted={sortBy === "firstName"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("firstName")}
+                  >
+                    First Name
+                  </Th>
+                  <Th
+                    sorted={sortBy === "lastName"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("lastName")}
+                  >
+                    Last Name
+                  </Th>
+                  <Th
+                    sorted={sortBy === "email"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("email")}
+                  >
+                    Email
+                  </Th>
+                  <Th
+                    sorted={sortBy === "dateOfBirth"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("dateOfBirth")}
+                  >
+                    Date of Birth
+                  </Th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={7}>
+                      <Text weight={500} align="center">
+                        Loading
+                      </Text>
+                    </td>
+                  </tr>
+                ) : rows.length === 0 ? (
+                  <tr>
+                    <td colSpan={7}>
+                      <Text weight={500} align="center">
+                        No items found
+                      </Text>
+                    </td>
+                  </tr>
+                ) : (
+                  rows
+                )}
+              </tbody>
+            </Table>
+          </ScrollArea>
         </Box>
-        <ScrollArea>
-          <Table
-            horizontalSpacing="md"
-            verticalSpacing="xs"
-            sx={{ tableLayout: "auto", width: "100%" }}
-          >
-            <thead>
-              <tr>
-                <Th
-                  sorted={sortBy === "id"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("id")}
-                >
-                  User ID
-                </Th>
-                <Th
-                  sorted={sortBy === "firstName"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("firstName")}
-                >
-                  First Name
-                </Th>
-                <Th
-                  sorted={sortBy === "lastName"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("lastName")}
-                >
-                  Last Name
-                </Th>
-                <Th
-                  sorted={sortBy === "email"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("email")}
-                >
-                  Email
-                </Th>
-                <Th
-                  sorted={sortBy === "dateOfBirth"}
-                  reversed={reverseSortDirection}
-                  onSort={() => setSorting("dateOfBirth")}
-                >
-                  Date of Birth
-                </Th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan={7}>
-                    <Text weight={500} align="center">
-                      Loading
-                    </Text>
-                  </td>
-                </tr>
-              ) : rows.length === 0 ? (
-                <tr>
-                  <td colSpan={7}>
-                    <Text weight={500} align="center">
-                      No items found
-                    </Text>
-                  </td>
-                </tr>
-              ) : (
-                rows
-              )}
-            </tbody>
-          </Table>
-        </ScrollArea>
-      </Box>
+      </Card>
     </Box>
   );
 };

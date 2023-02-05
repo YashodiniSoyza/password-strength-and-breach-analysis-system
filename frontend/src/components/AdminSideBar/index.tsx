@@ -129,7 +129,7 @@ const AdminSideBar: React.FC = () => {
   const admin = JSON.parse(localStorage.getItem("admin") || "{}");
 
   return (
-    <Navbar height={"100%"} width={{ sm: "20%" }} p="md">
+    <Navbar width={{ sm: "20%" }} p="md" height="100vh">
       <Navbar.Section grow>
         <Group className={classes.header} position="apart">
           <img src={LOGO} alt="logo" width="50" height="50" />

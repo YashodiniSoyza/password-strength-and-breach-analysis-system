@@ -1,10 +1,16 @@
 import userService from "../services/User.service";
 import User from "../models/User.model";
 import bcrypt from "bcryptjs";
+import emailService from "../services/Email.service";
+import generator from "generate-password";
 
 export const createUser = async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+  });
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   const user = new User({
     firstName: req.body.firstName,
@@ -17,6 +23,7 @@ export const createUser = async (req, res, next) => {
   await userService
     .createUser(user)
     .then((data) => {
+      emailService.sendPassword(req.body.email, password);
       req.handleResponse.successRespond(res)(data);
       next();
     })

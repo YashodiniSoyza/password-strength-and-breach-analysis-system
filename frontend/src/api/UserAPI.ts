@@ -25,7 +25,6 @@ class UserAPI {
     lastName: string;
     email: string;
     dateOfBirth: string;
-    password: string;
   }) => {
     return axios.post(`${BASE_URL}/user`, values, requestConfigJson);
   };
@@ -34,7 +33,14 @@ class UserAPI {
     return axios.delete(`${BASE_URL}/user/${id}`, requestConfig);
   };
   //update user
-  static editUser = (values: { id: string; userId: string; firstName: string; lastName: string; email: string; dateOfBirth: string; }) => {
+  static editUser = (values: {
+    id: string;
+    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    dateOfBirth: string;
+  }) => {
     let user = {
       id: values.id,
       userId: values.userId,
@@ -43,11 +49,7 @@ class UserAPI {
       email: values.email,
       dateOfBirth: values.dateOfBirth,
     };
-    return axios.put(
-      `${BASE_URL}/user/${values.id}`,
-      user,
-      requestConfigJson
-    );
+    return axios.put(`${BASE_URL}/user/${values.id}`, user, requestConfigJson);
   };
 }
 

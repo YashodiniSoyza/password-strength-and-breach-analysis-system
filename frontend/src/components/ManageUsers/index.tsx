@@ -11,7 +11,6 @@ import {
   Box,
   Button,
   Modal,
-  PasswordInput,
   Badge,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
@@ -265,7 +264,6 @@ const ManageUsers: React.FC = () => {
     lastName: string;
     email: string;
     dateOfBirth: string;
-    password: string;
   }) => {
     showNotification({
       id: "add-user",
@@ -396,7 +394,6 @@ const ManageUsers: React.FC = () => {
       lastName: "",
       email: "",
       dateOfBirth: "",
-      password: "",
     },
     validate: {
       firstName: (value) =>
@@ -413,8 +410,6 @@ const ManageUsers: React.FC = () => {
         /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.test(value)
           ? null
           : "Please enter a valid date of birth (YYYY-MM-DD)",
-      password: (value) =>
-        value.length < 8 ? "Password must have at least 8 characters" : null,
     },
   });
 
@@ -542,12 +537,6 @@ const ManageUsers: React.FC = () => {
             label="Date of Birth"
             placeholder="Enter date of birth"
             {...addForm.getInputProps("dateOfBirth")}
-            required
-          />
-          <PasswordInput
-            placeholder="Your password"
-            label="Password"
-            {...addForm.getInputProps("password")}
             required
           />
           <Button

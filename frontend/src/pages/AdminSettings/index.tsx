@@ -10,6 +10,7 @@ import {
   TextInput,
   Text,
   Title,
+  Card,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAlertTriangle, IconCheck, IconX } from "@tabler/icons";
@@ -217,76 +218,83 @@ const AdminSettings: React.FC = () => {
       style={{ height: "100vh" }}
     >
       <AdminSideBar />
-      <Box sx={{ width: "75%", padding: "20px" }}>
-        <form
-          onSubmit={adminSettingsForm.onSubmit((values) =>
-            updateAdminInfo(values)
-          )}
-        >
-          <Title order={3} style={{ textAlign: "center" }}>
-            Edit Profile Info
-          </Title>
-          <TextInput
-            label="Name"
-            placeholder="Enter name"
-            {...adminSettingsForm.getInputProps("name")}
-            required
-          />
-          <TextInput
-            label="Email"
-            placeholder="Enter email"
-            type={"email"}
-            {...adminSettingsForm.getInputProps("email")}
-            required
-          />
-          <Button
-            color="teal"
-            sx={{ marginTop: "10px", width: "100%" }}
-            type="submit"
+      <Box
+        sx={{
+          width: "79%",
+          height: "100vh",
+        }}
+        style={{
+          overflowY: "scroll",
+          overflowX: "hidden",
+        }}
+      >
+        <Card shadow="sm" p="lg" radius="md" withBorder m="xs">
+          <form
+            onSubmit={adminSettingsForm.onSubmit((values) =>
+              updateAdminInfo(values)
+            )}
           >
-            Save Info
-          </Button>
-        </form>
-        <form
-          onSubmit={adminPasswordForm.onSubmit((values) =>
-            updateAdminPassword(values)
-          )}
-        >
-          <Title order={3} style={{ marginTop: "20px", textAlign: "center" }}>
-            Change Password
-          </Title>
-          <PasswordInput
-            placeholder="Your current password"
-            label="Current Password"
-            {...adminPasswordForm.getInputProps("currentPassword")}
-          />
-          <PasswordInput
-            placeholder="Your New password"
-            label="New Password"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$&+,:;=?@#|'<>.^*()%!-]).{8,}"
-            {...adminPasswordForm.getInputProps("password")}
-          />
-          <PasswordInput
-            placeholder="Confirm your password"
-            label="Confirm Password"
-            {...adminPasswordForm.getInputProps("confirmPassword")}
-          />
-          <Group spacing={5} grow mt="xs" mb="md">
-            {bars}
-          </Group>
-          <PasswordRequirement
-            label="Has at least 8 characters"
-            meets={adminPasswordForm.values.password.length > 7}
-          />
-          {checks}
-          <Button
-            color="teal"
-            sx={{ marginTop: "10px", width: "100%" }}
-            type="submit"
+            <TextInput
+              label="Name"
+              placeholder="Enter name"
+              {...adminSettingsForm.getInputProps("name")}
+              required
+            />
+            <TextInput
+              label="Email"
+              placeholder="Enter email"
+              type={"email"}
+              {...adminSettingsForm.getInputProps("email")}
+              required
+            />
+            <Button
+              color="teal"
+              sx={{ marginTop: "10px", width: "100%" }}
+              type="submit"
+            >
+              Save Info
+            </Button>
+          </form>
+        </Card>
+        <Card shadow="sm" p="lg" radius="md" withBorder m="xs">
+          <form
+            onSubmit={adminPasswordForm.onSubmit((values) =>
+              updateAdminPassword(values)
+            )}
           >
-            Change Password
-          </Button>
-        </form>
+            <PasswordInput
+              placeholder="Your current password"
+              label="Current Password"
+              {...adminPasswordForm.getInputProps("currentPassword")}
+            />
+            <PasswordInput
+              placeholder="Your New password"
+              label="New Password"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[$&+,:;=?@#|'<>.^*()%!-]).{8,}"
+              {...adminPasswordForm.getInputProps("password")}
+            />
+            <PasswordInput
+              placeholder="Confirm your password"
+              label="Confirm Password"
+              {...adminPasswordForm.getInputProps("confirmPassword")}
+            />
+            <Group spacing={5} grow mt="xs" mb="md">
+              {bars}
+            </Group>
+            <PasswordRequirement
+              label="Has at least 8 characters"
+              meets={adminPasswordForm.values.password.length > 7}
+            />
+            {checks}
+            <Button
+              color="teal"
+              sx={{ marginTop: "10px", width: "100%" }}
+              type="submit"
+            >
+              Change Password
+            </Button>
+          </form>
+        </Card>
       </Box>
     </Flex>
   );

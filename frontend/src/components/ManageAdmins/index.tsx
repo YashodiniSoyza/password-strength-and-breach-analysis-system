@@ -11,7 +11,6 @@ import {
   Box,
   Button,
   Modal,
-  PasswordInput,
   Badge,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
@@ -244,11 +243,7 @@ const ManageAdmins: React.FC = () => {
   };
 
   //add admin
-  const addAdmin = async (values: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
+  const addAdmin = async (values: { name: string; email: string }) => {
     showNotification({
       id: "add-admin",
       loading: true,
@@ -366,7 +361,6 @@ const ManageAdmins: React.FC = () => {
     initialValues: {
       name: "",
       email: "",
-      password: "",
     },
     validate: {
       name: (value) =>
@@ -377,8 +371,6 @@ const ManageAdmins: React.FC = () => {
         )
           ? null
           : "Invalid email",
-      password: (value) =>
-        value.length < 8 ? "Password must have at least 8 characters" : null,
     },
   });
 
@@ -492,12 +484,6 @@ const ManageAdmins: React.FC = () => {
             label="Email"
             placeholder="Enter email"
             {...addForm.getInputProps("email")}
-            required
-          />
-          <PasswordInput
-            placeholder="Your password"
-            label="Password"
-            {...addForm.getInputProps("password")}
             required
           />
           <Button

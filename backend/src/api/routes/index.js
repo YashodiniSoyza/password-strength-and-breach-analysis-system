@@ -11,6 +11,11 @@ const routes = (app) => {
   app.put("/admin/:id", protect.adminProtect, adminController.updateAdmin);
   app.delete("/admin/:id", protect.adminProtect, adminController.deleteAdmin);
   app.post("/admin/verify", protect.adminProtect, adminController.verifyAdmin);
+  app.put(
+    "/admin/password/:id",
+    protect.adminProtect,
+    adminController.changePassword
+  );
 
   //User Routes
   app.post("/user/login", userController.loginUser);

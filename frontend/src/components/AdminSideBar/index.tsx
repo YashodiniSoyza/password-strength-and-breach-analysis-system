@@ -143,7 +143,6 @@ const AdminSideBar: React.FC = () => {
           image={DEFAULTPROFILE}
           name={admin.name}
           email={admin.email}
-          icon={<IconShieldLock />}
         />
         <Link to="/logout" className={classes.link}>
           <IconLogout className={classes.linkIcon} stroke={1.5} />

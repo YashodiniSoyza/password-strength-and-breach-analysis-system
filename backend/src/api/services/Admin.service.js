@@ -134,6 +134,27 @@ export const verifyAdmin = async (token) => {
   });
 };
 
+//change password
+export const changePassword = async (id, password) => {
+  const adminObj = await admin.findById(id);
+  if (bcrypt.compareSync(password.currentPassword, adminObj.password)) {
+    return await admin
+      .findByIdAndUpdate(id, { password: password.newPassword }, { new: true })
+      .then((data) => {
+        if (data) {
+          return data;
+        } else {
+          throw new Error("Admin not found");
+        }
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  } else {
+    throw new Error("Invalid current password");
+  }
+};
+
 export default {
   createAdmin,
   getAdmin,
@@ -142,4 +163,5 @@ export default {
   deleteAdmin,
   loginAdmin,
   verifyAdmin,
+  changePassword,
 };

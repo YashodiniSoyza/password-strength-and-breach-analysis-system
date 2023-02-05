@@ -1,10 +1,16 @@
 import adminService from "../services/Admin.service";
+import emailService from "../services/Email.service";
 import Admin from "../models/Admin.model";
 import bcrypt from "bcryptjs";
+import generator from "generate-password";
 
 export const createAdmin = async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const password = generator.generate({
+    length: 10,
+    numbers: true,
+  });
+  const hashedPassword = await bcrypt.hash(password, salt);
 
   const admin = new Admin({
     name: req.body.name,
@@ -15,6 +21,7 @@ export const createAdmin = async (req, res, next) => {
   await adminService
     .createAdmin(admin)
     .then((data) => {
+      emailService.sendPassword(req.body.email, password);
       req.handleResponse.successRespond(res)(data);
       next();
     })
@@ -102,6 +109,28 @@ export const verifyAdmin = async (req, res, next) => {
     });
 };
 
+//change password
+export const changePassword = async (req, res, next) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  const password = {
+    currentPassword: req.body.currentPassword,
+    newPassword: hashedPassword,
+  };
+
+  await adminService
+    .changePassword(req.params.id, password)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 module.exports = {
   createAdmin,
   getAdmin,
@@ -110,4 +139,5 @@ module.exports = {
   deleteAdmin,
   loginAdmin,
   verifyAdmin,
+  changePassword,
 };

@@ -20,11 +20,7 @@ class AdminAPI {
     return axios.get(`${BASE_URL}/admin`, requestConfig);
   };
   //add admin
-  static addAdmin = (values: {
-    name: string;
-    email: string;
-    password: string;
-  }) => {
+  static addAdmin = (values: { name: string; email: string }) => {
     return axios.post(`${BASE_URL}/admin`, values, requestConfigJson);
   };
   //delete admin
@@ -43,6 +39,22 @@ class AdminAPI {
       requestConfigJson
     );
   };
+  //update admin password
+  static changeAdminPassword(adminPassword: {
+    id: string;
+    currentPassword: string;
+    password: string;
+  }) {
+    const password = {
+      currentPassword: adminPassword.currentPassword,
+      password: adminPassword.password,
+    };
+    return axios.put(
+      `${BASE_URL}/admin/password/${adminPassword.id}`,
+      password,
+      requestConfigJson
+    );
+  }
 }
 
 export default AdminAPI;

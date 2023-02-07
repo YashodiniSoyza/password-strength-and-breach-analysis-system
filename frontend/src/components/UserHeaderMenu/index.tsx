@@ -146,10 +146,6 @@ const UserHeaderMenu: React.FC = () => {
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  //   const user = {
-  //     name: "John Doe",
-  //     email: "test@test.com",
-  //   };
 
   const items = links.map((link) => (
     <a

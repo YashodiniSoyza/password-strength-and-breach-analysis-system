@@ -6,6 +6,7 @@ import ManageUsers from "./ManageUsers";
 import StatsGrid from "./StatsGrid";
 import PageViewsCard from "./PageViewsCard";
 import StatsCard from "./StatsCard";
+import UserHeaderMenu from "./UserHeaderMenu";
 
 export {
   Logout,
@@ -16,4 +17,5 @@ export {
   StatsGrid,
   PageViewsCard,
   StatsCard,
+  UserHeaderMenu,
 };

@@ -18,13 +18,8 @@ import LOGO from "../../assets/favicon.png";
 import DEFAULTPROFILE from "../../assets/defaultprofile.png";
 import {
   IconChevronDown,
-  IconHeart,
   IconLogout,
-  IconMessage,
-  IconPlayerPause,
   IconSettings,
-  IconStar,
-  IconSwitchHorizontal,
   IconTrash,
 } from "@tabler/icons";
 
@@ -142,7 +137,7 @@ const links = [
 const UserHeaderMenu: React.FC = () => {
   const [opened, { toggle, close }] = useDisclosure(false);
   const [active, setActive] = useState(links[0].link);
-  const { classes, theme, cx } = useStyles();
+  const { classes, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");

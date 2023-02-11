@@ -22,6 +22,7 @@ import {
   IconSettings,
   IconTrash,
 } from "@tabler/icons";
+import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 const HEADER_HEIGHT = 60;
 
@@ -128,39 +129,48 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const links = [
-  { link: "/home", label: "Home" },
-  { link: "/generate-password", label: "Generate Password" },
+  { link: "/", label: "Home" },
+  { link: "/password-generator", label: "Generate Password" },
   { link: "/encrypt-decrypt", label: "Encrypt and Decrypt" },
   { link: "/breach-check", label: "Breach Check" },
 ];
 
+const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({
+  to,
+  item,
+  onClick,
+}) => {
+  const { classes, cx } = useStyles();
+  const resolvedPath = useResolvedPath(to);
+  const match = useMatch({ path: resolvedPath.pathname, end: true });
+
+  return (
+    <Link
+      className={cx(classes.link, {
+        [classes.linkActive]: item.link === match?.pathname,
+      })}
+      to={item.link}
+      key={item.label}
+      onClick={onClick}
+    >
+      <span>{item.label}</span>
+    </Link>
+  );
+};
+
 const UserHeaderMenu: React.FC = () => {
   const [opened, { toggle, close }] = useDisclosure(false);
-  const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const items = links.map((link) => (
-    <a
-      key={link.label}
-      href={link.link}
-      className={cx(classes.link, {
-        [classes.linkActive]: active === link.link,
-      })}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(link.link);
-        close();
-      }}
-    >
-      {link.label}
-    </a>
+    <CustomLink to={link.link} item={link} key={link.label} onClick={close} />
   ));
 
   return (
-    <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
+    <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
         <img src={LOGO} alt="logo" width="50" height="50" />
         <Group spacing={5} className={classes.links}>

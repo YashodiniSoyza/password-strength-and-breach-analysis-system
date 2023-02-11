@@ -7,6 +7,7 @@ import {
   ManageUsers,
   ManageAdmins,
   AdminSettings,
+  PasswordGeneratorPage,
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -16,6 +17,7 @@ const PageRoutes: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/password-generator" element={<PasswordGeneratorPage />} />
 
         <Route path="/admin" element={<AdminPrivateRoute />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />

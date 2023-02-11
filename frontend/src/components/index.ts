@@ -7,6 +7,8 @@ import StatsGrid from "./StatsGrid";
 import PageViewsCard from "./PageViewsCard";
 import StatsCard from "./StatsCard";
 import UserHeaderMenu from "./UserHeaderMenu";
+import PasswordGenerator from "./PasswordGenerator";
+import StatsGridCrackTime from "./StatsGridCrackTime";
 
 export {
   Logout,
@@ -18,4 +20,6 @@ export {
   PageViewsCard,
   StatsCard,
   UserHeaderMenu,
+  PasswordGenerator,
+  StatsGridCrackTime,
 };

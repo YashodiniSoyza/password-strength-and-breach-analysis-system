@@ -13,6 +13,8 @@ import {
   Modal,
   Badge,
   Card,
+  ActionIcon,
+  Flex,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -20,7 +22,6 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-  IconShieldLock,
 } from "@tabler/icons";
 import { IconEdit, IconTrash } from "@tabler/icons";
 import { openConfirmModal } from "@mantine/modals";
@@ -35,6 +36,7 @@ interface AdminData {
   adminId: string;
   name: string;
   email: string;
+  createdAt: string;
 }
 
 //Get all admin records from the database
@@ -154,6 +156,7 @@ const ManageAdmins: React.FC = () => {
           adminId: item.adminId,
           name: item.name,
           email: item.email,
+          createdAt: item.createdAt,
         };
       });
       setData(data);
@@ -218,6 +221,7 @@ const ManageAdmins: React.FC = () => {
               adminId: values.adminId,
               name: values.name,
               email: values.email,
+              createdAt: item.createdAt,
             };
           } else {
             return item;
@@ -272,6 +276,7 @@ const ManageAdmins: React.FC = () => {
             name: values.name,
             email: values.email,
             adminId: response.data.adminId,
+            createdAt: response.data.createdAt,
           },
         ];
         const payload = {
@@ -420,43 +425,40 @@ const ManageAdmins: React.FC = () => {
   const rows = sortedData.map((row) => (
     <tr key={row.id} style={{ textAlign: "left" }}>
       <td>
-        <Badge
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan" }}
-          leftSection={
-            <IconShieldLock size={14} style={{ marginBottom: "-2px" }} />
-          }
-        >
+        <Badge variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
           {row.adminId}
         </Badge>
       </td>
       <td>{row.name}</td>
       <td>{row.email}</td>
+      <td>{row.createdAt.slice(0, 10) + " " + row.createdAt.slice(11, 19)}</td>
       <td>
-        <Button
-          color="teal"
-          leftIcon={<IconEdit size={14} />}
-          onClick={() => {
-            editForm.setValues({
-              id: row.id,
-              name: row.name,
-              email: row.email,
-              adminId: row.adminId,
-            });
-            setEditOpened(true);
-          }}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Edit
-        </Button>
-        <Button
-          color="red"
-          leftIcon={<IconTrash size={14} />}
-          onClick={() => openDeleteModal(row.id)}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Delete
-        </Button>
+        <Flex>
+          <ActionIcon
+            color="teal"
+            onClick={() => {
+              editForm.setValues({
+                id: row.id,
+                name: row.name,
+                email: row.email,
+                adminId: row.adminId,
+              });
+              setEditOpened(true);
+            }}
+            mr="xs"
+            variant="outline"
+          >
+            <IconEdit size={14} />
+          </ActionIcon>
+          <ActionIcon
+            color="red"
+            onClick={() => openDeleteModal(row.id)}
+            mr="xs"
+            variant="outline"
+          >
+            <IconTrash size={14} />
+          </ActionIcon>
+        </Flex>
       </td>
     </tr>
   ));
@@ -602,6 +604,13 @@ const ManageAdmins: React.FC = () => {
                     onSort={() => setSorting("email")}
                   >
                     Email
+                  </Th>
+                  <Th
+                    sorted={sortBy === "createdAt"}
+                    reversed={reverseSortDirection}
+                    onSort={() => setSorting("createdAt")}
+                  >
+                    Added On
                   </Th>
                   <th>Action</th>
                 </tr>

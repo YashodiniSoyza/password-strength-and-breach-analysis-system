@@ -13,6 +13,8 @@ import {
   Modal,
   Badge,
   Card,
+  ActionIcon,
+  Flex,
 } from "@mantine/core";
 import { keys } from "@mantine/utils";
 import {
@@ -20,7 +22,6 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconSearch,
-  IconUser,
   IconEdit,
   IconTrash,
   IconCheck,
@@ -459,45 +460,42 @@ const ManageUsers: React.FC = () => {
   const rows = sortedData.map((row) => (
     <tr key={row.id} style={{ textAlign: "left" }}>
       <td>
-        <Badge
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan" }}
-          leftSection={<IconUser size={14} style={{ marginBottom: "-2px" }} />}
-        >
+        <Badge variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
           {row.userId}
         </Badge>
       </td>
-      <td>{row.firstName}</td>
-      <td>{row.lastName}</td>
+      <td>{row.firstName + " " + row.lastName}</td>
       <td>{row.email}</td>
       <td>{row.dateOfBirth.substring(0, 10)}</td>
       <td>
-        <Button
-          color="teal"
-          leftIcon={<IconEdit size={14} />}
-          onClick={() => {
-            editForm.setValues({
-              id: row.id,
-              userId: row.userId,
-              firstName: row.firstName,
-              lastName: row.lastName,
-              email: row.email,
-              dateOfBirth: row.dateOfBirth.substring(0, 10),
-            });
-            setEditOpened(true);
-          }}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Edit
-        </Button>
-        <Button
-          color="red"
-          leftIcon={<IconTrash size={14} />}
-          onClick={() => openDeleteModal(row.id)}
-          sx={{ margin: "5px", width: "100px" }}
-        >
-          Delete
-        </Button>
+        <Flex>
+          <ActionIcon
+            color="teal"
+            onClick={() => {
+              editForm.setValues({
+                id: row.id,
+                userId: row.userId,
+                firstName: row.firstName,
+                lastName: row.lastName,
+                email: row.email,
+                dateOfBirth: row.dateOfBirth.substring(0, 10),
+              });
+              setEditOpened(true);
+            }}
+            mr="xs"
+            variant="outline"
+          >
+            <IconEdit size={14} />
+          </ActionIcon>
+          <ActionIcon
+            color="red"
+            onClick={() => openDeleteModal(row.id)}
+            mr="xs"
+            variant="outline"
+          >
+            <IconTrash size={14} />
+          </ActionIcon>
+        </Flex>
       </td>
     </tr>
   ));
@@ -659,14 +657,7 @@ const ManageUsers: React.FC = () => {
                     reversed={reverseSortDirection}
                     onSort={() => setSorting("firstName")}
                   >
-                    First Name
-                  </Th>
-                  <Th
-                    sorted={sortBy === "lastName"}
-                    reversed={reverseSortDirection}
-                    onSort={() => setSorting("lastName")}
-                  >
-                    Last Name
+                    Name
                   </Th>
                   <Th
                     sorted={sortBy === "email"}

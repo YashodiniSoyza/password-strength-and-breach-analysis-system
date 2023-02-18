@@ -8,6 +8,9 @@ import {
   ManageAdmins,
   AdminSettings,
   PasswordGeneratorPage,
+  EncryptDecryptPage,
+  AESEncryptDecryptPage,
+  ManageBreaches,
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -24,7 +27,14 @@ const PageRoutes: React.FC = () => {
           <Route path="/admin/manage-users" element={<ManageUsers />} />
           <Route path="/admin/manage-admins" element={<ManageAdmins />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/manage-breaches" element={<ManageBreaches />} />
         </Route>
+
+        <Route path="/encrypt-decrypt" element={<EncryptDecryptPage />} />
+        <Route
+          path="/encrypt-decrypt/aes"
+          element={<AESEncryptDecryptPage />}
+        />
       </Routes>
     </Router>
   );

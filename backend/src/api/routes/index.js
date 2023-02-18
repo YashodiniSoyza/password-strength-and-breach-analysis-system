@@ -1,5 +1,6 @@
 import adminController from "../controllers/Admin.controller";
 import userController from "../controllers/User.controller";
+import breachController from "../controllers/Breach.controller";
 import protect from "../middleware/Auth.middleware";
 
 const routes = (app) => {
@@ -32,6 +33,35 @@ const routes = (app) => {
     "/user/verify",
     protect.adminAndUserProtect,
     userController.verifyUser
+  );
+
+  //Breach Routes
+  app.post("/breach", protect.adminProtect, breachController.createBreach);
+  app.get(
+    "/breach",
+    protect.adminAndUserProtect,
+    breachController.getAllBreaches
+  );
+  app.get(
+    "/breach/:id",
+    protect.adminAndUserProtect,
+    breachController.getBreach
+  );
+  app.put("/breach/:id", protect.adminProtect, breachController.updateBreach);
+  app.delete(
+    "/breach/:id",
+    protect.adminProtect,
+    breachController.deleteBreach
+  );
+  app.post(
+    "/breach/import/:id",
+    protect.adminProtect,
+    breachController.importBreaches
+  );
+  app.get(
+    "/breach/leakedData/:id",
+    protect.adminAndUserProtect,
+    breachController.getLeakedDataByBreachId
   );
 };
 

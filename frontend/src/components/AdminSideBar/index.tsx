@@ -5,6 +5,7 @@ import {
   IconLayoutDashboard,
   IconShieldLock,
   IconUsers,
+  IconFileDatabase,
 } from "@tabler/icons";
 import LOGO from "../../assets/favicon.png";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
@@ -97,6 +98,7 @@ const data = [
     icon: IconShieldLock,
   },
   { link: "/admin/manage-users", label: "Users", icon: IconUsers },
+  { link: "/admin/manage-breaches", label: "Breaches", icon: IconFileDatabase },
   { link: "/admin/settings", label: "Settings", icon: IconSettings },
 ];
 

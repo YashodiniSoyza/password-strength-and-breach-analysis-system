@@ -3,8 +3,11 @@ import AdminDashboard from "./AdminDashboard";
 import AdminLogin from "./AdminLogin";
 import ManageAdmins from "./ManageAdmins";
 import ManageUsers from "./ManageUsers";
+import ManageBreaches from "./ManageBreaches";
 import AdminSettings from "./AdminSettings";
 import PasswordGeneratorPage from "./PasswordGenerator";
+import AESEncryptDecryptPage from "./AESEncryptDecrypt";
+import EncryptDecryptPage from "./EncryptDecrypt";
 
 export {
   Home,
@@ -14,4 +17,7 @@ export {
   ManageUsers,
   AdminSettings,
   PasswordGeneratorPage,
+  AESEncryptDecryptPage,
+  EncryptDecryptPage,
+  ManageBreaches,
 };

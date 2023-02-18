@@ -9,6 +9,9 @@ import StatsCard from "./StatsCard";
 import UserHeaderMenu from "./UserHeaderMenu";
 import PasswordGenerator from "./PasswordGenerator";
 import StatsGridCrackTime from "./StatsGridCrackTime";
+import AESEncryptDecrypt from "./AESEncryptDecrypt";
+import EncryptDecrypt from "./EncryptDecrypt";
+import ManageBreaches from "./ManageBreaches";
 
 export {
   Logout,
@@ -22,4 +25,7 @@ export {
   UserHeaderMenu,
   PasswordGenerator,
   StatsGridCrackTime,
+  AESEncryptDecrypt,
+  EncryptDecrypt,
+  ManageBreaches,
 };

@@ -63,6 +63,23 @@ const routes = (app) => {
     protect.adminAndUserProtect,
     breachController.getLeakedDataByBreachId
   );
+  app.post(
+    "/breach/leakedData/password",
+    breachController.checkForBreachesWithPassword
+  );
+  app.post(
+    "/breach/leakedData/email",
+    breachController.checkForBreachesWithEmail
+  );
+  app.post(
+    "/breach/leakedData/username",
+    breachController.checkForBreachesWithUsername
+  );
+  app.post(
+    "/breach/leakedData/phone",
+    breachController.checkForBreachesWithPhone
+  );
+  app.post("/breach/getByIds", breachController.getBreachesByIds);
 };
 
 export default routes;

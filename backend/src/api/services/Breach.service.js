@@ -29,6 +29,21 @@ export const getBreach = async (id) => {
     });
 };
 
+export const getBreachesByIds = async (ids) => {
+  return await breach
+    .find({ _id: { $in: ids } })
+    .then((data) => {
+      if (data) {
+        return data;
+      } else {
+        throw new Error("Breach not found");
+      }
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 export const getAllBreaches = async () => {
   return await breach
     .find()
@@ -92,6 +107,50 @@ export const getLeakedDataByBreachId = async (breachId) => {
     });
 };
 
+export const checkForBreachesWithPassword = async (password) => {
+  return await leakedData
+    .find({ password: password }, { _id: 0, breachId: 1 })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
+export const checkForBreachesWithUsername = async (username) => {
+  return await leakedData
+    .find({ username: username }, { _id: 0, breachId: 1 })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
+export const checkForBreachesWithEmail = async (email) => {
+  return await leakedData
+    .find({ email: email }, { _id: 0, breachId: 1 })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
+export const checkForBreachesWithPhone = async (phone) => {
+  return await leakedData
+    .find({ phone: phone }, { _id: 0, breachId: 1 })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 module.exports = {
   createBreach,
   getBreach,
@@ -100,4 +159,9 @@ module.exports = {
   deleteBreach,
   importBreaches,
   getLeakedDataByBreachId,
+  checkForBreachesWithPassword,
+  checkForBreachesWithUsername,
+  checkForBreachesWithEmail,
+  checkForBreachesWithPhone,
+  getBreachesByIds,
 };

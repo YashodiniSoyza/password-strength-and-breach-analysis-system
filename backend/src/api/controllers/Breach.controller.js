@@ -190,6 +190,76 @@ export const getLeakedDataByBreachId = async (req, res, next) => {
     });
 };
 
+export const checkForBreachesWithPassword = async (req, res, next) => {
+  const { password } = req.body;
+  await breachService
+    .checkForBreachesWithPassword(password)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
+export const checkForBreachesWithUsername = async (req, res, next) => {
+  const { username } = req.body;
+  await breachService
+    .checkForBreachesWithUsername(username)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
+export const checkForBreachesWithEmail = async (req, res, next) => {
+  const { email } = req.body;
+  await breachService
+    .checkForBreachesWithEmail(email)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
+export const checkForBreachesWithPhone = async (req, res, next) => {
+  const { phone } = req.body;
+  await breachService
+    .checkForBreachesWithPhone(phone)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
+export const getBreachesByIds = async (req, res, next) => {
+  const { ids } = req.body;
+  const idsArray = ids.split(",");
+  await breachService
+    .getBreachesByIds(idsArray)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 module.exports = {
   createBreach,
   getBreach,
@@ -198,4 +268,9 @@ module.exports = {
   deleteBreach,
   importBreaches,
   getLeakedDataByBreachId,
+  checkForBreachesWithPassword,
+  checkForBreachesWithUsername,
+  checkForBreachesWithEmail,
+  checkForBreachesWithPhone,
+  getBreachesByIds,
 };

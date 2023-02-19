@@ -12,6 +12,7 @@ import StatsGridCrackTime from "./StatsGridCrackTime";
 import AESEncryptDecrypt from "./AESEncryptDecrypt";
 import EncryptDecrypt from "./EncryptDecrypt";
 import ManageBreaches from "./ManageBreaches";
+import HomeStats from "./HomeStats";
 
 export {
   Logout,
@@ -28,4 +29,5 @@ export {
   AESEncryptDecrypt,
   EncryptDecrypt,
   ManageBreaches,
+  HomeStats,
 };

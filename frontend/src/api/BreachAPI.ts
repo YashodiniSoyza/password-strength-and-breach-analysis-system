@@ -73,6 +73,58 @@ class BreachAPI {
   static getLeakedDataByBreachId(id: string) {
     return axios.get(`${BASE_URL}/breach/leakedData/${id}`, requestConfig);
   }
+
+  static searchEmail(email: string) {
+    const obj = {
+      email: email,
+    };
+    return axios.post(
+      `${BASE_URL}/breach/leakedData/email`,
+      obj,
+      requestConfigJson
+    );
+  }
+
+  static searchUsername(username: string) {
+    const obj = {
+      username: username,
+    };
+    return axios.post(
+      `${BASE_URL}/breach/leakedData/username`,
+      obj,
+      requestConfigJson
+    );
+  }
+
+  static searchPassword(password: string) {
+    const obj = {
+      password: password,
+    };
+    return axios.post(
+      `${BASE_URL}/breach/leakedData/password`,
+      obj,
+      requestConfigJson
+    );
+  }
+
+  static searchPhone(phone: string) {
+    const obj = {
+      phone: phone,
+    };
+    return axios.post(
+      `${BASE_URL}/breach/leakedData/phone`,
+      obj,
+      requestConfigJson
+    );
+  }
+
+  static getBreachesByIds(ids: string[]) {
+    const idsString = ids.join(",");
+    const obj = {
+      ids: idsString,
+    };
+    return axios.post(`${BASE_URL}/breach/getByIds`, obj, requestConfigJson);
+  }
 }
 
 export default BreachAPI;

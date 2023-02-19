@@ -33,6 +33,30 @@ export const createUser = async (req, res, next) => {
     });
 };
 
+const signupUser = async (req, res, next) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  const user = new User({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    password: hashedPassword,
+    dateOfBirth: req.body.dateOfBirth,
+  });
+
+  await userService
+    .createUser(user)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 export const getUser = async (req, res, next) => {
   await userService
     .getUser(req.params.id)
@@ -119,4 +143,5 @@ module.exports = {
   deleteUser,
   loginUser,
   verifyUser,
+  signupUser,
 };

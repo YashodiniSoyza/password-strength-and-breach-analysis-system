@@ -20,7 +20,8 @@ const routes = (app) => {
 
   //User Routes
   app.post("/user/login", userController.loginUser);
-  app.post("/user", userController.createUser);
+  app.post("/user", protect.adminAndUserProtect, userController.createUser);
+  app.post("/user/signup", userController.signupUser);
   app.get("/user", protect.adminAndUserProtect, userController.getAllUsers);
   app.get("/user/:id", protect.adminAndUserProtect, userController.getUser);
   app.put("/user/:id", protect.adminAndUserProtect, userController.updateUser);

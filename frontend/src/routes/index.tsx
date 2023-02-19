@@ -1,4 +1,4 @@
-import { AdminLogin, Home } from "../pages";
+import { AdminLogin, Home, UserLoginPage } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Logout } from "../components";
 import AdminPrivateRoute from "./AdminPrivateRoute";
@@ -11,6 +11,7 @@ import {
   EncryptDecryptPage,
   AESEncryptDecryptPage,
   ManageBreaches,
+  UserSignUpPage,
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -20,6 +21,8 @@ const PageRoutes: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/login" element={<UserLoginPage />} />
+        <Route path="/signup" element={<UserSignUpPage />} />
         <Route path="/password-generator" element={<PasswordGeneratorPage />} />
 
         <Route path="/admin" element={<AdminPrivateRoute />}>

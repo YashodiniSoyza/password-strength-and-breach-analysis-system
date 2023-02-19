@@ -13,6 +13,8 @@ import AESEncryptDecrypt from "./AESEncryptDecrypt";
 import EncryptDecrypt from "./EncryptDecrypt";
 import ManageBreaches from "./ManageBreaches";
 import HomeStats from "./HomeStats";
+import UserLogin from "./UserLogin";
+import UserSignUp from "./UserSignUp";
 
 export {
   Logout,
@@ -30,4 +32,6 @@ export {
   EncryptDecrypt,
   ManageBreaches,
   HomeStats,
+  UserLogin,
+  UserSignUp,
 };

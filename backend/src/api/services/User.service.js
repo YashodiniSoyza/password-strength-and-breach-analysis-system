@@ -31,6 +31,34 @@ export const createUser = async (userObj) => {
   }
 };
 
+export const signupUser = async (userObj) => {
+  const lastUser = await user.findOne().sort({ _id: -1 });
+  if (lastUser) {
+    const lastUserId = lastUser.userId;
+    const lastUserIdNumber = parseInt(lastUserId.substring(4));
+    const newUserIdNumber = lastUserIdNumber + 1;
+    const newUserId = "USER" + newUserIdNumber;
+    userObj.userId = newUserId;
+  } else {
+    userObj.userId = "USER1000000001";
+  }
+
+  const emailExists = await user.findOne({ email: userObj.email });
+  if (emailExists) {
+    throw new Error("Email already exists");
+  } else {
+    return await user
+      .create(userObj)
+      .then(async (data) => {
+        await data.save();
+        return data;
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  }
+};
+
 export const getUser = async (id) => {
   return await user
     .findById(id)
@@ -107,8 +135,11 @@ export const loginUser = async (email, password) => {
           //create response object
           const responseObj = {
             _id: data._id,
-            name: data.name,
+            userId: data.userId,
+            firstName: data.firstName,
+            lastName: data.lastName,
             email: data.email,
+            dateOfBirth: data.dateOfBirth,
             accessToken: accessToken,
           };
           return responseObj;
@@ -142,4 +173,5 @@ export default {
   deleteUser,
   loginUser,
   verifyUser,
+  signupUser,
 };

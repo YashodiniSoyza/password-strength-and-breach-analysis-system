@@ -15,6 +15,17 @@ class UserAPI {
     return axios.post(`${BASE_URL}/user/login`, credentials);
   };
 
+  //user signup
+  static userSignUp = (values: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    dateOfBirth: string;
+  }) => {
+    return axios.post(`${BASE_URL}/user/signup`, values, requestConfigJson);
+  };
+
   //get all users
   static getUsers = () => {
     return axios.get(`${BASE_URL}/user`, requestConfig);

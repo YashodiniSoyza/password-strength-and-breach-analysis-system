@@ -11,47 +11,47 @@ import {
   Button,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import AdminAPI from "../../api/AdminAPI";
+import UserAPI from "../../api/UserAPI";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle } from "@tabler/icons";
+import { Link } from "react-router-dom";
 
-function adminLogin(values: {
+function userLogin(values: {
   email: string;
   password: string;
   remember: boolean;
 }): void {
   showNotification({
-    id: "login-admin",
+    id: "login-user",
     loading: true,
     title: "Logging in...",
-    message: "Please wait while we log you in to the admin dashboard",
+    message: "Please wait while we log you in to the site",
     autoClose: false,
     disallowClose: true,
   });
 
-  AdminAPI.adminLogin(values.email, values.password)
+  UserAPI.userLogin(values.email, values.password)
     .then((response) => {
       updateNotification({
-        id: "login-admin",
+        id: "login-user",
         color: "teal",
         title: "Logged in successfully",
-        message:
-          "You have been logged in successfully. Redirecting you to the admin dashboard...",
+        message: "You have been logged in successfully. Redirecting...",
         icon: <IconCheck size={16} />,
         autoClose: 1000,
       });
       //add data to local storage
-      localStorage.setItem("admin", JSON.stringify(response.data));
-      //wait to notification to close and redirect to admin dashboard
+      localStorage.setItem("user", JSON.stringify(response.data));
+      //wait to notification to close and redirect to restricted page
       setTimeout(() => {
         //Add role to local storage
-        localStorage.setItem("role", "admin");
-        window.location.href = "/admin/dashboard";
+        localStorage.setItem("role", "user");
+        window.location.href = localStorage.getItem("redirectUrl") || "/";
       }, 1000);
     })
     .catch((error) => {
       updateNotification({
-        id: "login-admin",
+        id: "login-user",
         color: "red",
         title: "Login failed",
         message:
@@ -62,18 +62,22 @@ function adminLogin(values: {
     });
 }
 
-const AdminLogin: React.FC = () => {
+const UserLogin: React.FC = () => {
   if (localStorage.getItem("role")) {
-    if (localStorage.getItem("role") === "admin") {
-      window.location.href = "/admin/dashboard";
-    } else if (localStorage.getItem("role") === "user") {
+    if (localStorage.getItem("role") === "user") {
       window.location.href = "/";
+    } else if (localStorage.getItem("role") === "admin") {
+      window.location.href = "/admin/dashboard";
     }
   }
 
   const form = useForm({
     validateInputOnChange: true,
-    initialValues: { email: "", password: "", remember: false },
+    initialValues: {
+      email: "",
+      password: "",
+      remember: false,
+    },
 
     validate: {
       email: (value) =>
@@ -85,9 +89,6 @@ const AdminLogin: React.FC = () => {
     },
   });
 
-  //set the page title
-  document.title = "Admin Login";
-
   return (
     <Container size={420} my={40}>
       <Title
@@ -97,14 +98,14 @@ const AdminLogin: React.FC = () => {
           fontWeight: 900,
         })}
       >
-        Admin Login
+        Welcome back!
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
-        Enter your credentials to access the Admin Dashboard
+        Enter your credentials to access the restricted features.
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={form.onSubmit((values) => adminLogin(values))}>
+        <form onSubmit={form.onSubmit((values) => userLogin(values))}>
           <TextInput
             label="Email"
             placeholder="you@example.dev"
@@ -128,9 +129,19 @@ const AdminLogin: React.FC = () => {
             Sign in
           </Button>
         </form>
+        <Group position="center" mt="md">
+          <Text color="dimmed" size="sm">
+            Don't have an account?
+          </Text>
+          <Link to="/signup" style={{ textDecoration: "none" }}>
+            <Text color="blue" size="sm">
+              Sign up
+            </Text>
+          </Link>
+        </Group>
       </Paper>
     </Container>
   );
 };
 
-export default AdminLogin;
+export default UserLogin;

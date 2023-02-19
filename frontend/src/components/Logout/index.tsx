@@ -1,5 +1,6 @@
 const logout = () => {
   localStorage.removeItem("admin");
+  localStorage.removeItem("user");
   localStorage.removeItem("role");
   window.location.href = "/";
 };

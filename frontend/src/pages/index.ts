@@ -8,6 +8,8 @@ import AdminSettings from "./AdminSettings";
 import PasswordGeneratorPage from "./PasswordGenerator";
 import AESEncryptDecryptPage from "./AESEncryptDecrypt";
 import EncryptDecryptPage from "./EncryptDecrypt";
+import UserLoginPage from "./UserLogin";
+import UserSignUpPage from "./UserSignUp";
 
 export {
   Home,
@@ -20,4 +22,6 @@ export {
   AESEncryptDecryptPage,
   EncryptDecryptPage,
   ManageBreaches,
+  UserLoginPage,
+  UserSignUpPage,
 };

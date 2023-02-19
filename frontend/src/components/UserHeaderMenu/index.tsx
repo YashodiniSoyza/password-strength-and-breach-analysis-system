@@ -132,7 +132,7 @@ const links = [
   { link: "/", label: "Home" },
   { link: "/password-generator", label: "Generate Password" },
   { link: "/encrypt-decrypt", label: "Encrypt and Decrypt" },
-  { link: "/breach-check", label: "Breach Check" },
+  { link: "/vault", label: "Vault" },
 ];
 
 const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({
@@ -177,7 +177,7 @@ const UserHeaderMenu: React.FC = () => {
           {items}
         </Group>
         <Group>
-          {(user && user.name && (
+          {(user && user.firstName && (
             <Menu
               width={260}
               position="bottom-end"
@@ -199,7 +199,7 @@ const UserHeaderMenu: React.FC = () => {
                       size={20}
                     />
                     <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
-                      {user.name}
+                      {user.firstName + " " + user.lastName}
                     </Text>
                     <IconChevronDown size={12} stroke={1.5} />
                   </Group>
@@ -210,9 +210,14 @@ const UserHeaderMenu: React.FC = () => {
                 <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>
                   Account settings
                 </Menu.Item>
-                <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>
-                  Logout
-                </Menu.Item>
+                <Link
+                  to="/logout"
+                  style={{ color: "inherit", textDecoration: "none" }}
+                >
+                  <Menu.Item icon={<IconLogout size={14} stroke={1.5} />}>
+                    Logout
+                  </Menu.Item>
+                </Link>
 
                 <Menu.Divider />
 
@@ -227,8 +232,12 @@ const UserHeaderMenu: React.FC = () => {
             </Menu>
           )) || (
             <Group className={classes.hiddenMobile}>
-              <Button variant="default">Log in</Button>
-              <Button>Sign up</Button>
+              <Link to="/login">
+                <Button variant="default">Log in</Button>
+              </Link>
+              <Link to="/signup">
+                <Button>Sign up</Button>
+              </Link>
             </Group>
           )}
           <Burger
@@ -242,10 +251,14 @@ const UserHeaderMenu: React.FC = () => {
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
-              {!(user && user.name) && (
+              {!(user && user.firstName) && (
                 <Group position="center" grow pb="xl" px="md">
-                  <Button variant="default">Log in</Button>
-                  <Button>Sign up</Button>
+                  <Link to="/login">
+                    <Button variant="default">Log in</Button>
+                  </Link>
+                  <Link to="/signup">
+                    <Button>Sign up</Button>
+                  </Link>
                 </Group>
               )}
             </Paper>

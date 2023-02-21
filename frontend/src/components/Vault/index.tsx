@@ -20,6 +20,7 @@ import {
   Progress,
   Card,
   SimpleGrid,
+  Loader,
 } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import CryptoJS from "crypto-js";
@@ -236,6 +237,7 @@ const Vault: React.FC = () => {
   const [decryptVaultOpened, setDecryptVaultOpened] = useState(false);
   const [masterPassword, setMasterPassword] = useState("");
   const [isDecrypted, setIsDecrypted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { classes } = useStyles();
 
   const form = useForm({
@@ -252,6 +254,7 @@ const Vault: React.FC = () => {
   });
 
   const createVaultHandler = async (masterPassword: string) => {
+    setIsLoading(true);
     setCreateMasterPasswordOpened(false);
     showNotification({
       id: "create-vault",
@@ -282,6 +285,7 @@ const Vault: React.FC = () => {
           icon: <IconCheck size={16} />,
           autoClose: 3000,
         });
+        setIsLoading(false);
       })
       .catch((err) => {
         updateNotification({
@@ -292,6 +296,7 @@ const Vault: React.FC = () => {
           icon: <IconX size={16} />,
           autoClose: 3000,
         });
+        setIsLoading(false);
       });
   };
 
@@ -312,6 +317,7 @@ const Vault: React.FC = () => {
   };
 
   const updateVaultHandler = async () => {
+    setIsLoading(true);
     //get vault from form
     const vaultFromForm = form.values.vault;
     //create vault object
@@ -366,6 +372,7 @@ const Vault: React.FC = () => {
           icon: <IconCheck size={16} />,
           autoClose: 3000,
         });
+        setIsLoading(false);
       })
       .catch((err) => {
         showNotification({
@@ -376,9 +383,11 @@ const Vault: React.FC = () => {
           icon: <IconX size={16} />,
           autoClose: 3000,
         });
+        setIsLoading(false);
       });
   };
   const decryptVaultHandler = async (masterPassword: string) => {
+    setIsLoading(true);
     const decryptedVault = decryptVault(
       vault.salt,
       masterPassword,
@@ -400,6 +409,7 @@ const Vault: React.FC = () => {
       setMasterPassword(masterPassword);
     }
     setDecryptVaultOpened(false);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -430,6 +440,7 @@ const Vault: React.FC = () => {
             icon: <IconCheck size={16} />,
             autoClose: 3000,
           });
+          setIsLoading(false);
         })
         .catch((err) => {
           updateNotification({
@@ -441,6 +452,7 @@ const Vault: React.FC = () => {
             icon: <IconAlertTriangle size={16} />,
             autoClose: 3000,
           });
+          setIsLoading(false);
         });
     };
     getVault();
@@ -639,94 +651,109 @@ const Vault: React.FC = () => {
           </Button>
         </form>
       </Modal>
-      {vault.vault === "" ? (
-        <Box className={classes.wrapper}>
-          <Box className={classes.body}>
-            <Title className={classes.title}>You are almost there!</Title>
-            <Text weight={500} size="lg" mb={5}>
-              You need to create a master password before you can start using
-              your vault.
-            </Text>
-            <Text size="sm" color="dimmed">
-              Your master password will be used to encrypt your vault, so make
-              sure to remember it. We don't store your master password or a
-              hashed version of it anywhere, so if you forget it, you will be
-              not able to recover your vault.
-            </Text>
-
-            <Box className={classes.controls}>
-              <Button
-                className={classes.control}
-                onClick={() => {
-                  setCreateMasterPasswordOpened(true);
-                }}
-              >
-                Create Master Password
-              </Button>
-            </Box>
-          </Box>
-          <Image src={DATASECURITYIMAGE} className={classes.image} />
-        </Box>
+      {isLoading ? (
+        <Flex
+          w="100%"
+          h="95vh"
+          direction="column"
+          justify="center"
+          align="center"
+        >
+          <Loader size="lg" />
+        </Flex>
       ) : (
-        <Box m="auto" w="80%">
-          <Group position="center" mt="md">
-            <Button
-              onClick={() => {
-                form.insertListItem("vault", {
-                  key: randomId(),
-                  domain: "",
-                  username: "",
-                  password: "",
-                });
-              }}
-            >
-              Add New Password
-            </Button>
-          </Group>
-          <Box>
-            {form.values.vault.length === 0 ? (
-              <Box ta="center">
-                <Title>Your vault is empty!</Title>
-                <Text size="sm" color="dimmed">
-                  You can add as many passwords as you want to your vault, and
-                  you can also delete them whenever you want.
+        <Box>
+          {vault.vault === "" ? (
+            <Box className={classes.wrapper}>
+              <Box className={classes.body}>
+                <Title className={classes.title}>You are almost there!</Title>
+                <Text weight={500} size="lg" mb={5}>
+                  You need to create a master password before you can start
+                  using your vault.
                 </Text>
-              </Box>
-            ) : isDecrypted ? (
-              <Box>
-                <SimpleGrid
-                  cols={3}
-                  breakpoints={[{ maxWidth: "xs", cols: 1 }]}
-                  mt="xl"
-                >
-                  {fields}
-                </SimpleGrid>
-                <Group position="center" mt="md">
+                <Text size="sm" color="dimmed">
+                  Your master password will be used to encrypt your vault, so
+                  make sure to remember it. We don't store your master password
+                  or a hashed version of it anywhere, so if you forget it, you
+                  will be not able to recover your vault.
+                </Text>
+
+                <Box className={classes.controls}>
                   <Button
+                    className={classes.control}
                     onClick={() => {
-                      updateVaultHandler();
+                      setCreateMasterPasswordOpened(true);
                     }}
                   >
-                    Save Vault
+                    Create Master Password
                   </Button>
-                </Group>
+                </Box>
               </Box>
-            ) : (
-              <Box ta="center">
-                <Title>Your vault is encrypted!</Title>
-                <Text size="sm" color="dimmed">
-                  You need to enter your master password to decrypt your vault.
-                </Text>
+              <Image src={DATASECURITYIMAGE} className={classes.image} />
+            </Box>
+          ) : (
+            <Box m="auto" w="80%">
+              <Group position="center" mt="md">
                 <Button
                   onClick={() => {
-                    setDecryptVaultOpened(true);
+                    form.insertListItem("vault", {
+                      key: randomId(),
+                      domain: "",
+                      username: "",
+                      password: "",
+                    });
                   }}
                 >
-                  Decrypt Vault
+                  Add New Password
                 </Button>
+              </Group>
+              <Box>
+                {form.values.vault.length === 0 ? (
+                  <Box ta="center">
+                    <Title>Your vault is empty!</Title>
+                    <Text size="sm" color="dimmed">
+                      You can add as many passwords as you want to your vault,
+                      and you can also delete them whenever you want.
+                    </Text>
+                  </Box>
+                ) : isDecrypted ? (
+                  <Box>
+                    <SimpleGrid
+                      cols={3}
+                      breakpoints={[{ maxWidth: "xs", cols: 1 }]}
+                      mt="xl"
+                    >
+                      {fields}
+                    </SimpleGrid>
+                    <Group position="center" mt="md">
+                      <Button
+                        onClick={() => {
+                          updateVaultHandler();
+                        }}
+                      >
+                        Save Vault
+                      </Button>
+                    </Group>
+                  </Box>
+                ) : (
+                  <Box ta="center">
+                    <Title>Your vault is encrypted!</Title>
+                    <Text size="sm" color="dimmed">
+                      You need to enter your master password to decrypt your
+                      vault.
+                    </Text>
+                    <Button
+                      onClick={() => {
+                        setDecryptVaultOpened(true);
+                      }}
+                    >
+                      Decrypt Vault
+                    </Button>
+                  </Box>
+                )}
               </Box>
-            )}
-          </Box>
+            </Box>
+          )}
         </Box>
       )}
     </Box>

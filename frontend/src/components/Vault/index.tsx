@@ -123,15 +123,6 @@ const decrypt = (vault: any, iKey: any) => {
   return decrypted.toString(CryptoJS.enc.Utf8);
 };
 
-let message = "Hello World";
-let password = "Secret Password";
-let encrypted = encrypt(message, password);
-let decrypted = decrypt(encrypted, password);
-
-console.log("Message: " + message);
-console.log("Encrypted: " + encrypted);
-console.log("Decrypted: " + decrypted);
-
 function PasswordRequirement({
   meets,
   label,

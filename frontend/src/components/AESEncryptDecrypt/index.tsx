@@ -29,10 +29,10 @@ const decrypt = (data: string, mode: string | null, key: string) => {
   }).toString(CryptoJS.enc.Utf8);
 };
 
-const a = encrypt("Hello World", "ECB", "1");
-console.log(a);
-const b = decrypt(a, "ECB", "1");
-console.log(b);
+// const a = encrypt("Hello World", "ECB", "1");
+// console.log(a);
+// const b = decrypt(a, "ECB", "1");
+// console.log(b);
 
 const AESEncryptDecrypt: React.FC = () => {
   const [dataEncrypt, setDataEncrypt] = useState<string>("");

@@ -15,6 +15,7 @@ import ManageBreaches from "./ManageBreaches";
 import HomeStats from "./HomeStats";
 import UserLogin from "./UserLogin";
 import UserSignUp from "./UserSignUp";
+import Vault from "./Vault";
 
 export {
   Logout,
@@ -34,4 +35,5 @@ export {
   HomeStats,
   UserLogin,
   UserSignUp,
+  Vault,
 };

@@ -62,6 +62,24 @@ class UserAPI {
     };
     return axios.put(`${BASE_URL}/user/${values.id}`, user, requestConfigJson);
   };
+
+  //get vault by user id
+  static getVaultByUserId = () => {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const obj = {
+      id: user._id,
+    };
+
+    return axios.post(`${BASE_URL}/vault`, obj, requestConfigJson);
+  };
+
+  //update vault
+  static updateVault = (values: { id: string; vault: string }) => {
+    const obj = {
+      vault: values.vault,
+    };
+    return axios.put(`${BASE_URL}/vault/${values.id}`, obj, requestConfigJson);
+  };
 }
 
 export default UserAPI;

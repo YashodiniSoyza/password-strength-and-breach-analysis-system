@@ -132,7 +132,7 @@ const links = [
   { link: "/", label: "Home" },
   { link: "/password-generator", label: "Generate Password" },
   { link: "/encrypt-decrypt", label: "Encrypt and Decrypt" },
-  { link: "/vault", label: "Vault" },
+  { link: "/user/vault", label: "Vault" },
 ];
 
 const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({

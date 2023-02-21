@@ -1,6 +1,7 @@
 import adminController from "../controllers/Admin.controller";
 import userController from "../controllers/User.controller";
 import breachController from "../controllers/Breach.controller";
+import vaultController from "../controllers/Vault.controller";
 import protect from "../middleware/Auth.middleware";
 
 const routes = (app) => {
@@ -81,6 +82,9 @@ const routes = (app) => {
     breachController.checkForBreachesWithPhone
   );
   app.post("/breach/getByIds", breachController.getBreachesByIds);
+
+  app.post("/vault", protect.userProtect, vaultController.getVaultByUserId);
+  app.put("/vault/:id", protect.userProtect, vaultController.updateVaultById);
 };
 
 export default routes;

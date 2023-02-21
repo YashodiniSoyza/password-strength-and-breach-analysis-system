@@ -2,6 +2,7 @@ import { AdminLogin, Home, UserLoginPage } from "../pages";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Logout } from "../components";
 import AdminPrivateRoute from "./AdminPrivateRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 import {
   AdminDashboard,
   ManageUsers,
@@ -12,6 +13,7 @@ import {
   AESEncryptDecryptPage,
   ManageBreaches,
   UserSignUpPage,
+  VaultPage,
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -31,6 +33,10 @@ const PageRoutes: React.FC = () => {
           <Route path="/admin/manage-admins" element={<ManageAdmins />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="/admin/manage-breaches" element={<ManageBreaches />} />
+        </Route>
+
+        <Route path="/user" element={<UserPrivateRoute />}>
+          <Route path="/user/vault" element={<VaultPage />} />
         </Route>
 
         <Route path="/encrypt-decrypt" element={<EncryptDecryptPage />} />

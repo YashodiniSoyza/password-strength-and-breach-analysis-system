@@ -1,4 +1,5 @@
 import userService from "../services/User.service";
+import vaultService from "../services/Vault.service.js";
 import User from "../models/User.model";
 import bcrypt from "bcryptjs";
 import emailService from "../services/Email.service";
@@ -22,8 +23,17 @@ export const createUser = async (req, res, next) => {
 
   await userService
     .createUser(user)
-    .then((data) => {
+    .then(async (data) => {
       emailService.sendPassword(req.body.email, password);
+
+      const salt = await bcrypt.genSalt(64);
+      const vaultObj = {
+        userId: data._id,
+        vault: "",
+        salt: salt,
+      };
+      await vaultService.createVault(vaultObj);
+
       req.handleResponse.successRespond(res)(data);
       next();
     })
@@ -47,7 +57,15 @@ const signupUser = async (req, res, next) => {
 
   await userService
     .createUser(user)
-    .then((data) => {
+    .then(async (data) => {
+      const salt = await bcrypt.genSalt(64);
+      const vaultObj = {
+        userId: data._id,
+        vault: "",
+        salt: salt,
+      };
+      await vaultService.createVault(vaultObj);
+
       req.handleResponse.successRespond(res)(data);
       next();
     })

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import admin from "../models/Admin.model.js";
+import user from "../models/User.model.js";
 
 //Protect Admin routes
 export const adminProtect = async (req, res, next) => {

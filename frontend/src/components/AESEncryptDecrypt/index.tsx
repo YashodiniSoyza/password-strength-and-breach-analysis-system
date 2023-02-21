@@ -11,28 +11,55 @@ import {
 import { useState } from "react";
 var CryptoJS = require("crypto-js");
 
-// Encrypt Method takes data, mode, key, output format as parameters.
-const encrypt = (data: string, mode: string | null, key: string) => {
-  return CryptoJS.AES.encrypt(data, key, {
-    mode: mode === "ECB" ? CryptoJS.mode.ECB : CryptoJS.mode.CBC,
-    iv: CryptoJS.enc.Utf8.parse("0000000000000000"),
+const keySize = 256;
+const iterations = 100;
+
+const encrypt = (data: any, iKey: any, mode: any) => {
+  const salt = CryptoJS.lib.WordArray.random(128 / 8);
+
+  const key = CryptoJS.PBKDF2(iKey, salt, {
+    keySize: keySize / 32,
+    iterations: iterations,
+  });
+
+  const iv = CryptoJS.lib.WordArray.random(128 / 8);
+
+  const encrypted = CryptoJS.AES.encrypt(data, key, {
+    iv: iv,
     padding: CryptoJS.pad.Pkcs7,
-  }).toString();
+    mode: mode === "ECB" ? CryptoJS.mode.ECB : CryptoJS.mode.CBC,
+  });
+
+  // salt, iv will be hex 32 in length
+  // append them to the ciphertext for use  in decryption
+  const encryptedData = salt.toString() + iv.toString() + encrypted.toString();
+  return encryptedData;
 };
 
-// Decrypt Method takes data, mode, key, input format as parameters
-const decrypt = (data: string, mode: string | null, key: string) => {
-  return CryptoJS.AES.decrypt(data, key, {
-    mode: mode === "ECB" ? CryptoJS.mode.ECB : CryptoJS.mode.CBC,
-    iv: CryptoJS.enc.Utf8.parse("0000000000000000"),
-    padding: CryptoJS.pad.Pkcs7,
-  }).toString(CryptoJS.enc.Utf8);
-};
+const decrypt = (data: any, iKey: any, mode: any) => {
+  const salt = CryptoJS.enc.Hex.parse(data.substr(0, 32));
+  const iv = CryptoJS.enc.Hex.parse(data.substr(32, 32));
+  const encrypted = data.substring(64);
 
-// const a = encrypt("Hello World", "ECB", "1");
-// console.log(a);
-// const b = decrypt(a, "ECB", "1");
-// console.log(b);
+  const key = CryptoJS.PBKDF2(iKey, salt, {
+    keySize: keySize / 32,
+    iterations: iterations,
+  });
+
+  const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
+    iv: iv,
+    padding: CryptoJS.pad.Pkcs7,
+    mode: mode === "ECB" ? CryptoJS.mode.ECB : CryptoJS.mode.CBC,
+  });
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
+const a = encrypt("hello 1 EBC", "1", "ECB");
+const b = decrypt(a, "1", "ECB");
+console.log(b);
+
+const c = encrypt("hello 2 CBC", "1", "CBC");
+const d = decrypt(c, "1", "CBC");
+console.log(d);
 
 const AESEncryptDecrypt: React.FC = () => {
   const [dataEncrypt, setDataEncrypt] = useState<string>("");
@@ -87,11 +114,12 @@ const AESEncryptDecrypt: React.FC = () => {
             mt={10}
           />
           <Button
-            onClick={() =>
-              setOutputEncrypt(encrypt(dataEncrypt, modeEncrypt, keyEncrypt))
-            }
+            onClick={() => {
+              setOutputEncrypt(encrypt(dataEncrypt, keyEncrypt, modeEncrypt));
+            }}
             w="100%"
             mt={10}
+            disabled={dataEncrypt === "" || keyEncrypt === ""}
           >
             Encrypt
           </Button>
@@ -127,10 +155,16 @@ const AESEncryptDecrypt: React.FC = () => {
           />
           <Button
             onClick={() => {
-              setOutputDecrypt(decrypt(dataDecrypt, modeDecrypt, keyDecrypt));
+              const decrypted = decrypt(dataDecrypt, keyDecrypt, modeDecrypt);
+              if (decrypted === "") {
+                setOutputDecrypt("!!! Error !!! Wrong Key or Encrypted Text");
+              } else {
+                setOutputDecrypt(decrypted);
+              }
             }}
             mt={10}
             w="100%"
+            disabled={dataDecrypt === "" || keyDecrypt === ""}
           >
             Decrypt
           </Button>

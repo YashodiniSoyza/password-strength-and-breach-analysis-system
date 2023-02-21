@@ -10,7 +10,6 @@ import UserHeaderMenu from "./UserHeaderMenu";
 import PasswordGenerator from "./PasswordGenerator";
 import StatsGridCrackTime from "./StatsGridCrackTime";
 import AESEncryptDecrypt from "./AESEncryptDecrypt";
-import EncryptDecrypt from "./EncryptDecrypt";
 import ManageBreaches from "./ManageBreaches";
 import HomeStats from "./HomeStats";
 import UserLogin from "./UserLogin";
@@ -30,7 +29,6 @@ export {
   PasswordGenerator,
   StatsGridCrackTime,
   AESEncryptDecrypt,
-  EncryptDecrypt,
   ManageBreaches,
   HomeStats,
   UserLogin,

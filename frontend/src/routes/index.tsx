@@ -9,7 +9,6 @@ import {
   ManageAdmins,
   AdminSettings,
   PasswordGeneratorPage,
-  EncryptDecryptPage,
   AESEncryptDecryptPage,
   ManageBreaches,
   UserSignUpPage,
@@ -38,8 +37,6 @@ const PageRoutes: React.FC = () => {
         <Route path="/user" element={<UserPrivateRoute />}>
           <Route path="/user/vault" element={<VaultPage />} />
         </Route>
-
-        <Route path="/encrypt-decrypt" element={<EncryptDecryptPage />} />
         <Route
           path="/encrypt-decrypt/aes"
           element={<AESEncryptDecryptPage />}

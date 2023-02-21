@@ -131,7 +131,7 @@ const useStyles = createStyles((theme) => ({
 const links = [
   { link: "/", label: "Home" },
   { link: "/password-generator", label: "Generate Password" },
-  { link: "/encrypt-decrypt", label: "Encrypt and Decrypt" },
+  { link: "/encrypt-decrypt/aes", label: "Encrypt and Decrypt" },
   { link: "/user/vault", label: "Vault" },
 ];
 

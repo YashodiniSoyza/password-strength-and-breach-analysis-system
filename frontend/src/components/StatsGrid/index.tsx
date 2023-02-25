@@ -92,7 +92,7 @@ const StatsGrid: React.FC<StatsGridProps> = ({ data }) => {
   return (
     <div className={classes.root}>
       <SimpleGrid
-        cols={4}
+        cols={2}
         breakpoints={[
           { maxWidth: "md", cols: 2 },
           { maxWidth: "xs", cols: 1 },

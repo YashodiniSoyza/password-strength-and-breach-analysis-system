@@ -55,6 +55,11 @@ class AdminAPI {
       requestConfigJson
     );
   }
+
+  //get admin dashboard stats
+  static getAdminDashboardStats = () => {
+    return axios.get(`${BASE_URL}/stats/admin`, requestConfig);
+  };
 }
 
 export default AdminAPI;

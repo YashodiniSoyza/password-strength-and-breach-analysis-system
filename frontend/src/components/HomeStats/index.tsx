@@ -12,37 +12,48 @@ import {
   IconLockOpenOff,
   IconDeviceMobileMessage,
   IconUserSearch,
+  IconFileAlert,
+  IconUserExclamation,
 } from "@tabler/icons";
 
 interface StatsProps {
   data: {
     label: string;
     stats: string;
-    icon: "email" | "password" | "username" | "phone";
+    icon: "email" | "password" | "username" | "phone" | "user" | "breach";
   }[];
+  width?: string;
 }
 
 const icons = {
+  breach: IconFileAlert,
   email: IconMail,
   password: IconLockOpenOff,
   username: IconUserSearch,
   phone: IconDeviceMobileMessage,
+  user: IconUserExclamation,
 };
 
-const HomeStats: React.FC<StatsProps> = ({ data }) => {
+const HomeStats: React.FC<StatsProps> = ({ data, width }) => {
   const theme = useMantineTheme();
   const stats = data.map((stat) => {
     const Icon = icons[stat.icon];
     return (
       <Paper withBorder radius="md" p="xs" key={stat.label}>
-        <Group>
+        <Group mt={10} mb={10}>
           <Icon size={36} stroke={2} color={theme.primaryColor} />
 
           <div>
-            <Text color="dimmed" size="xs" transform="uppercase" weight={700}>
+            <Text
+              color="dimmed"
+              size="xs"
+              transform="uppercase"
+              weight={700}
+              ta="left"
+            >
               {stat.label}
             </Text>
-            <Text weight={700} size="xl">
+            <Text weight={700} size="xl" ta="left">
               {stat.stats}
             </Text>
           </div>
@@ -52,9 +63,9 @@ const HomeStats: React.FC<StatsProps> = ({ data }) => {
   });
   return (
     <SimpleGrid
-      cols={4}
+      cols={3}
       breakpoints={[{ maxWidth: "sm", cols: 1 }]}
-      w="90%"
+      w={width ? width : "75%"}
       m="10px auto 30px auto"
     >
       {stats}

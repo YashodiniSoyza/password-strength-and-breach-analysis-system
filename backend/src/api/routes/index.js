@@ -2,6 +2,7 @@ import adminController from "../controllers/Admin.controller";
 import userController from "../controllers/User.controller";
 import breachController from "../controllers/Breach.controller";
 import vaultController from "../controllers/Vault.controller";
+import statsController from "../controllers/Stats.controller";
 import protect from "../middleware/Auth.middleware";
 
 const routes = (app) => {
@@ -85,6 +86,13 @@ const routes = (app) => {
 
   app.post("/vault", protect.userProtect, vaultController.getVaultByUserId);
   app.put("/vault/:id", protect.userProtect, vaultController.updateVaultById);
+
+  app.get("/stats/home", statsController.getHomeStats);
+  app.get(
+    "/stats/admin",
+    protect.adminProtect,
+    statsController.adminDashboardStats
+  );
 };
 
 export default routes;

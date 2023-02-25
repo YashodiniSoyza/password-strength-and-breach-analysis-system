@@ -1,34 +1,118 @@
-import { AdminSideBar, PageViewsCard, StatsGrid } from "../../components";
+import { AdminSideBar, HomeStats, StatsGrid } from "../../components";
 import { Flex, Box } from "@mantine/core";
+import { useEffect, useState } from "react";
+import UserAPI from "../../api/UserAPI";
+import AdminAPI from "../../api/AdminAPI";
 
-const data = [
-  {
-    title: "New users",
-    icon: "user" as const,
-    value: "1,234",
-    diff: 12,
-  },
-  {
-    title: "Passwords",
-    icon: "password" as const,
-    value: "1,234",
-    diff: 12,
-  },
-  {
-    title: "Breaches",
-    icon: "breach" as const,
-    value: "1,234",
-    diff: 12,
-  },
-  {
-    title: "Revenue",
-    icon: "coin" as const,
-    value: "1,234",
-    diff: 12,
-  },
-];
+interface StatData {
+  title: string;
+  icon: "user" | "password" | "breach" | "coin";
+  value: string;
+  diff: number;
+}
 
 const AdminDashboard: React.FC = () => {
+  const [stats, setStats] = useState<StatData[]>([
+    {
+      title: "New users",
+      icon: "user",
+      value: "0",
+      diff: 0,
+    },
+    {
+      title: "New Breaches",
+      icon: "breach",
+      value: "0",
+      diff: 0,
+    },
+    {
+      title: "New Vaults",
+      icon: "password",
+      value: "0",
+      diff: 0,
+    },
+    {
+      title: "Leaked Data",
+      icon: "coin",
+      value: "0",
+      diff: 0,
+    },
+  ]);
+  const [homeStats, setHomeStats] = useState({
+    breaches: 0,
+    accounts: 0,
+    emails: 0,
+    passwords: 0,
+    usernames: 0,
+    phoneNumbers: 0,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await AdminAPI.getAdminDashboardStats();
+      const data = response.data;
+      const stats = [
+        {
+          title: "New users",
+          icon: "user" as const,
+          value: data.users.thisMonth.toString(),
+          diff:
+            data.users.lastMonth === 0
+              ? 100 * data.users.thisMonth
+              : ((data.users.thisMonth - data.users.lastMonth) /
+                  data.users.lastMonth) *
+                100,
+        },
+        {
+          title: "New Breaches",
+          icon: "breach" as const,
+          value: data.breaches.thisMonth.toString(),
+          diff:
+            data.breaches.lastMonth === 0
+              ? 100 * data.breaches.thisMonth
+              : ((data.breaches.thisMonth - data.breaches.lastMonth) /
+                  data.breaches.lastMonth) *
+                100,
+        },
+        {
+          title: "New Vaults",
+          icon: "password" as const,
+          value: data.vaults.thisMonth.toString(),
+          diff:
+            data.vaults.lastMonth === 0
+              ? 100 * data.vaults.thisMonth
+              : ((data.vaults.thisMonth - data.vaults.lastMonth) /
+                  data.vaults.lastMonth) *
+                100,
+        },
+        {
+          title: "Leaked Data",
+          icon: "coin" as const,
+          value: data.leakedData.thisMonth.toString(),
+          diff:
+            data.leakedData.lastMonth === 0
+              ? 100 * data.leakedData.thisMonth
+              : ((data.leakedData.thisMonth - data.leakedData.lastMonth) /
+                  data.leakedData.lastMonth) *
+                100,
+        },
+      ];
+
+      setStats(stats);
+
+      const response2 = await UserAPI.getHomeStats();
+      const data2 = response2.data;
+      setHomeStats({
+        breaches: data2.breaches,
+        accounts: data2.accounts,
+        emails: data2.emails,
+        passwords: data2.passwords,
+        usernames: data2.usernames,
+        phoneNumbers: data2.phoneNumbers,
+      });
+    };
+    fetchData();
+  }, []);
   return (
     <Flex
       gap="xs"
@@ -45,17 +129,56 @@ const AdminDashboard: React.FC = () => {
           flexDirection: "column",
           alignItems: "center",
           width: "79vw",
+          height: "100vh",
         }}
       >
-        <StatsGrid data={data} />
-        <PageViewsCard
-          total="345,765"
-          diff={18}
+        <StatsGrid data={stats} />
+        <HomeStats
           data={[
-            { label: "Mobile", count: "204,001", part: 59, color: "#47d6ab" },
-            { label: "Desktop", count: "121,017", part: 35, color: "#03141a" },
-            { label: "Tablet", count: "31,118", part: 6, color: "#4fcdf7" },
+            {
+              label: "Toatal Breaches",
+              stats: homeStats.breaches
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "breach",
+            },
+            {
+              label: "Total accounts",
+              stats: homeStats.accounts
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "user",
+            },
+            {
+              label: "pwned emails",
+              stats: homeStats.emails
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "email",
+            },
+            {
+              label: "pwned passwords",
+              stats: homeStats.passwords
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "password",
+            },
+            {
+              label: "pwned usernames",
+              stats: homeStats.usernames
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "username",
+            },
+            {
+              label: "pwned phone numbers",
+              stats: homeStats.phoneNumbers
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              icon: "phone",
+            },
           ]}
+          width="75vw"
         />
       </Box>
     </Flex>

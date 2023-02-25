@@ -20,9 +20,10 @@ import {
   IconCheck,
   IconSearch,
 } from "@tabler/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BreachAPI from "../../api/BreachAPI";
+import UserAPI from "../../api/UserAPI";
 import { HomeStats, UserHeaderMenu } from "../../components";
 const Home: React.FC = () => {
   const theme = useMantineTheme();
@@ -32,6 +33,30 @@ const Home: React.FC = () => {
   const [isBreachedFalse, setIsBreachedFalse] = useState<boolean>(false);
   const [breaches, setBreaches] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [stats, setStats] = useState({
+    breaches: 0,
+    accounts: 0,
+    emails: 0,
+    passwords: 0,
+    usernames: 0,
+    phoneNumbers: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const response = await UserAPI.getHomeStats();
+      const data = response.data;
+      setStats({
+        breaches: data.breaches,
+        accounts: data.accounts,
+        emails: data.emails,
+        passwords: data.passwords,
+        usernames: data.usernames,
+        phoneNumbers: data.phoneNumbers,
+      });
+    };
+    fetchStats();
+  }, []);
 
   const handleSearch = () => {
     setIsBreachedTrue(false);
@@ -251,23 +276,45 @@ const Home: React.FC = () => {
           <HomeStats
             data={[
               {
+                label: "Toatal Breaches",
+                stats: stats.breaches
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                icon: "breach",
+              },
+              {
+                label: "Total accounts",
+                stats: stats.accounts
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                icon: "user",
+              },
+              {
                 label: "pwned emails",
-                stats: "1,000,000,000",
+                stats: stats.emails
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "email",
               },
               {
                 label: "pwned passwords",
-                stats: "1,000,000,000",
+                stats: stats.passwords
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "password",
               },
               {
                 label: "pwned usernames",
-                stats: "1,000,000,000",
+                stats: stats.usernames
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "username",
               },
               {
                 label: "pwned phone numbers",
-                stats: "1,000,000,000",
+                stats: stats.phoneNumbers
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "phone",
               },
             ]}

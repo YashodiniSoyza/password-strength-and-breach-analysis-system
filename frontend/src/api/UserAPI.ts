@@ -80,6 +80,11 @@ class UserAPI {
     };
     return axios.put(`${BASE_URL}/vault/${values.id}`, obj, requestConfigJson);
   };
+
+  //get home stats
+  static getHomeStats = () => {
+    return axios.get(`${BASE_URL}/stats/home`, requestConfig);
+  };
 }
 
 export default UserAPI;

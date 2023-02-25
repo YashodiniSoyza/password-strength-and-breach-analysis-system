@@ -15,6 +15,7 @@ import HomeStats from "./HomeStats";
 import UserLogin from "./UserLogin";
 import UserSignUp from "./UserSignUp";
 import Vault from "./Vault";
+import UserSettings from "./UserSettings";
 
 export {
   Logout,
@@ -34,4 +35,5 @@ export {
   UserLogin,
   UserSignUp,
   Vault,
+  UserSettings,
 };

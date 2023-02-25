@@ -10,6 +10,7 @@ import AESEncryptDecryptPage from "./AESEncryptDecrypt";
 import UserLoginPage from "./UserLogin";
 import UserSignUpPage from "./UserSignUp";
 import VaultPage from "./Vault";
+import UserSettingsPage from "./UserSettings/indes";
 
 export {
   Home,
@@ -24,4 +25,5 @@ export {
   UserLoginPage,
   UserSignUpPage,
   VaultPage,
+  UserSettingsPage,
 };

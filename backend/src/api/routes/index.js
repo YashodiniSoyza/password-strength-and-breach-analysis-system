@@ -37,6 +37,11 @@ const routes = (app) => {
     protect.adminAndUserProtect,
     userController.verifyUser
   );
+  app.put(
+    "/user/password/:id",
+    protect.userProtect,
+    userController.changePassword
+  );
 
   //Breach Routes
   app.post("/breach", protect.adminProtect, breachController.createBreach);

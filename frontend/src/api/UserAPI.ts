@@ -85,6 +85,23 @@ class UserAPI {
   static getHomeStats = () => {
     return axios.get(`${BASE_URL}/stats/home`, requestConfig);
   };
+
+  //change password
+  static changeUserPassword(adminPassword: {
+    id: string;
+    currentPassword: string;
+    password: string;
+  }) {
+    const password = {
+      currentPassword: adminPassword.currentPassword,
+      password: adminPassword.password,
+    };
+    return axios.put(
+      `${BASE_URL}/user/password/${adminPassword.id}`,
+      password,
+      requestConfigJson
+    );
+  }
 }
 
 export default UserAPI;

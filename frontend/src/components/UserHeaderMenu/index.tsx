@@ -207,9 +207,14 @@ const UserHeaderMenu: React.FC = () => {
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Label>Settings</Menu.Label>
-                <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>
-                  Account settings
-                </Menu.Item>
+                <Link
+                  to="/user/settings"
+                  style={{ color: "inherit", textDecoration: "none" }}
+                >
+                  <Menu.Item icon={<IconSettings size={14} stroke={1.5} />}>
+                    Account settings
+                  </Menu.Item>
+                </Link>
                 <Link
                   to="/logout"
                   style={{ color: "inherit", textDecoration: "none" }}

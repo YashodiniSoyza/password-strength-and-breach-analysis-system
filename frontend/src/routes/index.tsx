@@ -13,6 +13,7 @@ import {
   ManageBreaches,
   UserSignUpPage,
   VaultPage,
+  UserSettingsPage
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -36,6 +37,7 @@ const PageRoutes: React.FC = () => {
 
         <Route path="/user" element={<UserPrivateRoute />}>
           <Route path="/user/vault" element={<VaultPage />} />
+          <Route path="/user/settings" element={<UserSettingsPage />} />
         </Route>
         <Route
           path="/encrypt-decrypt/aes"

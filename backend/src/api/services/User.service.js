@@ -165,6 +165,26 @@ export const verifyUser = async (token) => {
   });
 };
 
+export const changePassword = async (id, password) => {
+  const userObj = await user.findById(id);
+  if (bcrypt.compareSync(password.currentPassword, userObj.password)) {
+    return await user
+      .findByIdAndUpdate(id, { password: password.newPassword }, { new: true })
+      .then((data) => {
+        if (data) {
+          return data;
+        } else {
+          throw new Error("User not found");
+        }
+      })
+      .catch((err) => {
+        throw new Error(err.message);
+      });
+  } else {
+    throw new Error("Invalid current password");
+  }
+};
+
 export default {
   createUser,
   getUser,
@@ -174,4 +194,5 @@ export default {
   loginUser,
   verifyUser,
   signupUser,
+  changePassword,
 };

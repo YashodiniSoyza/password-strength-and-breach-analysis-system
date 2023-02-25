@@ -153,6 +153,26 @@ export const verifyUser = async (req, res, next) => {
     });
 };
 
+export const changePassword = async (req, res, next) => {
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+  const password = {
+    currentPassword: req.body.currentPassword,
+    newPassword: hashedPassword,
+  };
+
+  await userService
+    .changePassword(req.params.id, password)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
 module.exports = {
   createUser,
   getUser,
@@ -162,4 +182,5 @@ module.exports = {
   loginUser,
   verifyUser,
   signupUser,
+  changePassword,
 };

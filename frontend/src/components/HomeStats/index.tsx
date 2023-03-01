@@ -63,7 +63,7 @@ const HomeStats: React.FC<StatsProps> = ({ data, width }) => {
   });
   return (
     <SimpleGrid
-      cols={3}
+      cols={4}
       breakpoints={[{ maxWidth: "sm", cols: 1 }]}
       w={width ? width : "75%"}
       m="10px auto 30px auto"

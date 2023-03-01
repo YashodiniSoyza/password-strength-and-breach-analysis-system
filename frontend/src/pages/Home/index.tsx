@@ -11,20 +11,134 @@ import {
   Loader,
   Card,
   Image,
+  createStyles,
+  Container,
+  Button,
+  Alert,
 } from "@mantine/core";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import {
+  IconAlertCircle,
   IconAlertTriangle,
   IconArrowLeft,
   IconArrowRight,
   IconCheck,
+  IconDots,
   IconSearch,
+  IconX,
 } from "@tabler/icons";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BreachAPI from "../../api/BreachAPI";
 import UserAPI from "../../api/UserAPI";
-import { HomeStats, UserHeaderMenu } from "../../components";
+import { HomeStats, UserHeaderMenu, HomeHero } from "../../components";
+import { Dots } from "./Dots";
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    position: "relative",
+    paddingTop: 20,
+    paddingBottom: 20,
+
+    "@media (max-width: 755px)": {
+      paddingTop: 80,
+      paddingBottom: 60,
+    },
+  },
+
+  inner: {
+    position: "relative",
+    zIndex: 1,
+  },
+
+  dots: {
+    position: "absolute",
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[1],
+
+    "@media (max-width: 755px)": {
+      display: "none",
+    },
+  },
+
+  dotsLeft: {
+    left: 0,
+    top: 0,
+  },
+
+  title: {
+    textAlign: "center",
+    fontWeight: 800,
+    fontSize: 40,
+    letterSpacing: -1,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    marginBottom: theme.spacing.xs,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+
+    "@media (max-width: 520px)": {
+      fontSize: 28,
+      textAlign: "left",
+    },
+  },
+
+  subTitle: {
+    textAlign: "center",
+    fontWeight: 800,
+    fontSize: 30,
+    letterSpacing: -1,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    marginBottom: theme.spacing.xs,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+
+    "@media (max-width: 520px)": {
+      fontSize: 28,
+      textAlign: "left",
+    },
+  },
+
+  highlight: {
+    color:
+      theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6],
+  },
+
+  description: {
+    textAlign: "center",
+
+    "@media (max-width: 520px)": {
+      textAlign: "left",
+      fontSize: theme.fontSizes.md,
+    },
+  },
+
+  controls: {
+    marginTop: theme.spacing.lg,
+    display: "flex",
+    justifyContent: "center",
+
+    "@media (max-width: 520px)": {
+      flexDirection: "column",
+    },
+  },
+
+  control: {
+    "&:not(:first-of-type)": {
+      marginLeft: theme.spacing.md,
+    },
+
+    "@media (max-width: 520px)": {
+      height: 42,
+      fontSize: theme.fontSizes.md,
+
+      "&:not(:first-of-type)": {
+        marginTop: theme.spacing.md,
+        marginLeft: 0,
+      },
+    },
+  },
+}));
+
 const Home: React.FC = () => {
   const theme = useMantineTheme();
   const [selectOption, setSelectOption] = useState<string | null>("email");
@@ -41,6 +155,7 @@ const Home: React.FC = () => {
     usernames: 0,
     phoneNumbers: 0,
   });
+  const { classes } = useStyles();
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -252,15 +367,27 @@ const Home: React.FC = () => {
           </Box>
           <Box w="80%" h="100%" ta="left">
             <Box>
-              <Title>{breach.name}</Title>
-              <Text mt={10}>{breach.description}</Text>
+              <Title className={classes.subTitle} ta="left">
+                {breach.name}
+              </Title>
+              <Text mt={10} weight={600}>
+                {breach.description}
+              </Text>
             </Box>
             <Box mt={20}>
-              <Text>Domain: {breach.domain}</Text>
-              <Text>Breach date: {breach.breachDate.slice(0, 10)}</Text>
-              <Text>Date added: {breach.createdAt.slice(0, 10)}</Text>
-              <Text>Compromised accounts: {breach.compromisedAccounts}</Text>
-              <Text>Compromised data: {breach.compromisedData}</Text>
+              <Text weight={600}>Domain: {breach.domain}</Text>
+              <Text weight={600}>
+                Breach date: {breach.breachDate.slice(0, 10)}
+              </Text>
+              <Text weight={600}>
+                Date added: {breach.createdAt.slice(0, 10)}
+              </Text>
+              <Text weight={600}>
+                Compromised accounts: {breach.compromisedAccounts}
+              </Text>
+              <Text weight={600}>
+                Compromised data: {breach.compromisedData}
+              </Text>
             </Box>
           </Box>
         </Flex>
@@ -271,8 +398,9 @@ const Home: React.FC = () => {
   return (
     <Box>
       <UserHeaderMenu />
+      <HomeHero />
       <Box>
-        <Paper shadow="md" p="xs" m="md" ta="center" h="87vh">
+        <Paper shadow="md" p="xs" m="md" ta="center" mih={650}>
           <HomeStats
             data={[
               {
@@ -303,79 +431,94 @@ const Home: React.FC = () => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "password",
               },
-              {
-                label: "pwned usernames",
-                stats: stats.usernames
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                icon: "username",
-              },
-              {
-                label: "pwned phone numbers",
-                stats: stats.phoneNumbers
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-                icon: "phone",
-              },
             ]}
+            width="100%"
           />
-          <Title mt={20}>Have I Been Pwned?</Title>
-          <Text mb={30}>
-            Check if your email, username, phone number or password has been
-            compromised in a data breach.
-          </Text>
-          <Flex direction="row" align="center" justify="center" mt={20}>
-            <Text>I want to check if my</Text>
-            <Select
-              m="0 10px 0 10px"
-              placeholder="Select option"
-              data={[
-                { label: "Email", value: "email" },
-                { label: "Username", value: "username" },
-                { label: "Phone number", value: "phone" },
-                { label: "Password", value: "password" },
-              ]}
-              value={selectOption}
-              onChange={(value) => {
-                setIsBreachedTrue(false);
-                setIsBreachedFalse(false);
-                setSelectOption(value);
-              }}
-            />
-            <Text>has been compromised.</Text>
-          </Flex>
-          <TextInput
-            icon={<IconSearch size={24} stroke={2} />}
-            radius="xl"
-            size="xl"
-            w="60%"
-            m="20px auto 20px auto"
-            rightSection={
-              <ActionIcon
-                size={48}
+          <Container className={classes.wrapper} size={1400}>
+            <Dots className={classes.dots} style={{ left: 0, top: 0 }} />
+            <Dots className={classes.dots} style={{ left: 60, top: 0 }} />
+            <Dots className={classes.dots} style={{ left: 0, top: 140 }} />
+            <Dots className={classes.dots} style={{ left: 0, top: 280 }} />
+            <Dots className={classes.dots} style={{ right: 0, top: 0 }} />
+            <Dots className={classes.dots} style={{ right: 60, top: 0 }} />
+            <Dots className={classes.dots} style={{ right: 0, top: 140 }} />
+            <Dots className={classes.dots} style={{ right: 0, top: 280 }} />
+            <Dots className={classes.dots} style={{ left: 100, top: 280 }} />
+            <Dots className={classes.dots} style={{ right: 100, top: 280 }} />
+
+            <div className={classes.inner} id="check">
+              <Title className={classes.title}>
+                Search for your compromised accounts
+              </Title>
+              <Container p={0} size={600}>
+                <Text size="lg" color="dimmed" className={classes.description}>
+                  We will search for your {selectOption} in our database of
+                  compromised accounts. If your {selectOption} has been
+                  compromised, we will show you the details of the breach.
+                </Text>
+              </Container>
+              <Select
+                m="10px auto 10px auto"
                 radius="xl"
-                color={theme.primaryColor}
-                variant="filled"
-                mr={20}
-                onClick={() => handleSearch()}
-              >
-                {theme.dir === "ltr" ? (
-                  <IconArrowRight size={24} stroke={2} />
-                ) : (
-                  <IconArrowLeft size={24} stroke={2} />
-                )}
-              </ActionIcon>
-            }
-            placeholder={"Enter your " + selectOption}
-            rightSectionWidth={42}
-            value={value}
-            onChange={(event) => setValue(event.currentTarget.value)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                handleSearch();
-              }
-            }}
-          />
+                size="xl"
+                w="70%"
+                placeholder="Select option"
+                data={[
+                  { label: "Email", value: "email" },
+                  { label: "Username", value: "username" },
+                  { label: "Phone number", value: "phone" },
+                  { label: "Password", value: "password" },
+                ]}
+                value={selectOption}
+                onChange={(value) => {
+                  setIsBreachedTrue(false);
+                  setIsBreachedFalse(false);
+                  setSelectOption(value);
+                }}
+              />
+              <TextInput
+                icon={<IconSearch size={24} stroke={2} />}
+                radius="xl"
+                size="xl"
+                w="70%"
+                m="20px auto 20px auto"
+                placeholder={"Enter your " + selectOption}
+                value={value}
+                onChange={(event) => setValue(event.currentTarget.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+              />
+              <div className={classes.controls}>
+                <Button
+                  className={classes.control}
+                  size="lg"
+                  variant="default"
+                  color="gray"
+                  w="200px"
+                  rightIcon={<IconDots size={24} stroke={2} />}
+                  onClick={() => {
+                    setIsBreachedTrue(false);
+                    setIsBreachedFalse(false);
+                    setValue("");
+                  }}
+                >
+                  Clear
+                </Button>
+                <Button
+                  className={classes.control}
+                  size="lg"
+                  onClick={() => handleSearch()}
+                  rightIcon={<IconSearch size={24} stroke={2} />}
+                  w="200px"
+                >
+                  Check now
+                </Button>
+              </div>
+            </div>
+          </Container>
           <Box>
             {isLoading && (
               <Box>
@@ -384,39 +527,58 @@ const Home: React.FC = () => {
             )}
             {isBreachedTrue && (
               <Box>
-                <Title color="red" order={3} m="10px 0 10px 0">
-                  Oh bad news - You have been pwned!
-                </Title>
-                <Text color="red" m="10px 0 10px 0">
-                  Your {selectOption} has been compromised in a{" "}
-                  {breaches.length} data breach.
-                </Text>
-                {selectOption === "password" && (
-                  <Box>
-                    <Text>
-                      You can use our{" "}
-                      <Link to={"/password-generator"}>
-                        password generator tool
-                      </Link>{" "}
-                      for generate secure, unique passwords for every account.
-                    </Text>
-                  </Box>
-                )}
+                <Alert
+                  icon={<IconAlertCircle size={16} />}
+                  title="Oh bad news - You have been pwned!"
+                  color="red"
+                  ta="left"
+                  w="70%"
+                  m="10px auto 20px auto"
+                  variant="filled"
+                >
+                  <Text size="lg" color="white" weight={700}>
+                    Your {selectOption} has been compromised in a{" "}
+                    {breaches.length} data breach.
+                  </Text>
+                  {selectOption === "password" && (
+                    <Box>
+                      <Text weight={700}>
+                        You can use our{" "}
+                        <Link
+                          to={"/password-generator"}
+                          style={{ textDecoration: "inherit", color: "black" }}
+                        >
+                          password generator tool
+                        </Link>{" "}
+                        for generate secure, unique passwords for every account.
+                      </Text>
+                    </Box>
+                  )}
+                </Alert>
                 <Box ta="left" ml="sm">
-                  <Title order={2}>Breaches you were pwned in:</Title>
+                  <Title order={4} className={classes.subTitle}>
+                    Breaches you were pwned in:
+                  </Title>
                 </Box>
                 {breachesList}
               </Box>
             )}
             {isBreachedFalse && (
               <Box>
-                <Title color="green" order={3} m="10px 0 10px 0">
-                  Great news - No pwnage found!
-                </Title>
-                <Text color="green" m="10px 0 10px 0">
-                  Your {selectOption} has not been compromised in any data
-                  breach.
-                </Text>
+                <Alert
+                  icon={<IconCheck size={16} />}
+                  title="Great news - No pwnage found!"
+                  color="green"
+                  ta="left"
+                  w="70%"
+                  m="10px auto 10px auto"
+                  variant="filled"
+                >
+                  <Text size="lg" color="white" weight={700}>
+                    Your {selectOption} has not been compromised in any data
+                    breach.
+                  </Text>
+                </Alert>
               </Box>
             )}
           </Box>

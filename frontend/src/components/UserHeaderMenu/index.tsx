@@ -28,8 +28,11 @@ const HEADER_HEIGHT = 60;
 
 const useStyles = createStyles((theme) => ({
   root: {
+    width: "100%",
     position: "relative",
-    zIndex: 1,
+    zIndex: 2500,
+    backgroundColor: "transparent",
+    border: "none",
   },
 
   dropdown: {
@@ -53,6 +56,8 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     height: "100%",
+    width: "90%",
+    maxWidth: 1200,
   },
 
   links: {
@@ -81,10 +86,11 @@ const useStyles = createStyles((theme) => ({
     fontWeight: 500,
 
     "&:hover": {
-      backgroundColor:
+      boxShadow: `0 0 0 1px ${
         theme.colorScheme === "dark"
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
+          ? theme.colors.dark[8]
+          : theme.colors.gray[0]
+      }`,
     },
 
     [theme.fn.smallerThan("sm")]: {
@@ -111,7 +117,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   user: {
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+    color: "white",
     padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
     borderRadius: theme.radius.sm,
     transition: "background-color 100ms ease",
@@ -119,6 +125,7 @@ const useStyles = createStyles((theme) => ({
     "&:hover": {
       backgroundColor:
         theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+      color: "black",
     },
   },
 
@@ -153,7 +160,9 @@ const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({
       key={item.label}
       onClick={onClick}
     >
-      <span>{item.label}</span>
+      <Text color={match?.pathname === item.link ? "black" : "white"}>
+        {item.label}
+      </Text>
     </Link>
   );
 };

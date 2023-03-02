@@ -17,12 +17,17 @@ import { useDisclosure } from "@mantine/hooks";
 import LOGO from "../../assets/favicon.png";
 import DEFAULTPROFILE from "../../assets/defaultprofile.png";
 import {
+  IconAlertTriangle,
+  IconCheck,
   IconChevronDown,
   IconLogout,
   IconSettings,
   IconTrash,
 } from "@tabler/icons";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
+import { openConfirmModal } from "@mantine/modals";
+import { showNotification, updateNotification } from "@mantine/notifications";
+import UserAPI from "../../api/UserAPI";
 
 const HEADER_HEIGHT = 60;
 
@@ -189,6 +194,63 @@ const UserHeaderMenu: React.FC<UserHeaderMenuProps> = ({ noHero }) => {
     />
   ));
 
+  //Open delete modal
+  const openDeleteModal = (id: string) =>
+    openConfirmModal({
+      title: "Delete Your Account?",
+      centered: false,
+      zIndex: 3000,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete this password? This action cannot be
+          undone.
+        </Text>
+      ),
+      labels: { confirm: "Delete", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onCancel: () => {
+        showNotification({
+          title: "Cancelled",
+          message: "You cancelled the delete action",
+          color: "teal",
+        });
+      },
+      onConfirm: () => {
+        showNotification({
+          id: "delete-user",
+          loading: true,
+          title: "Deleting user",
+          message: "Please wait while we delete the user record",
+          autoClose: false,
+          disallowClose: true,
+        });
+        UserAPI.deleteUser(id)
+          .then((response) => {
+            updateNotification({
+              id: "delete-user",
+              color: "red",
+              title: "Account deleted successfully",
+              message: "The account has been deleted, loggin out...",
+              icon: <IconCheck size={16} />,
+              autoClose: 2000,
+            });
+            setTimeout(() => {
+              window.location.href = "/logout";
+            }, 2000);
+          })
+          .catch((error) => {
+            updateNotification({
+              id: "delete-user",
+              color: "red",
+              title: "Deleting user record failed",
+              message: "We were unable to delete the user record",
+              icon: <IconAlertTriangle size={16} />,
+              autoClose: 5000,
+            });
+          });
+      },
+    });
+
   return (
     <Header
       height={HEADER_HEIGHT}
@@ -254,6 +316,12 @@ const UserHeaderMenu: React.FC<UserHeaderMenuProps> = ({ noHero }) => {
                 <Menu.Item
                   color="red"
                   icon={<IconTrash size={14} stroke={1.5} />}
+                  onClick={() => {
+                    const user = JSON.parse(
+                      localStorage.getItem("user") || "{}"
+                    );
+                    openDeleteModal(user._id);
+                  }}
                 >
                   Delete account
                 </Menu.Item>

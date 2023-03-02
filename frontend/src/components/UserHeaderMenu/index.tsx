@@ -26,115 +26,6 @@ import { Link, useMatch, useResolvedPath } from "react-router-dom";
 
 const HEADER_HEIGHT = 60;
 
-const useStyles = createStyles((theme) => ({
-  root: {
-    width: "100%",
-    position: "relative",
-    zIndex: 2500,
-    backgroundColor: "transparent",
-    border: "none",
-  },
-
-  dropdown: {
-    position: "absolute",
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: "hidden",
-
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
-  },
-
-  header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: "100%",
-    width: "90%",
-    maxWidth: 1200,
-  },
-
-  links: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan("sm")]: {
-      display: "none",
-    },
-  },
-
-  link: {
-    display: "block",
-    lineHeight: 1,
-    padding: "8px 12px",
-    borderRadius: theme.radius.sm,
-    textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-
-    "&:hover": {
-      boxShadow: `0 0 0 1px ${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0]
-      }`,
-    },
-
-    [theme.fn.smallerThan("sm")]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
-    },
-  },
-
-  linkActive: {
-    "&, &:hover": {
-      backgroundColor: theme.fn.variant({
-        variant: "light",
-        color: theme.primaryColor,
-      }).background,
-      color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-        .color,
-    },
-  },
-
-  hiddenMobile: {
-    [theme.fn.smallerThan("sm")]: {
-      display: "none",
-    },
-  },
-
-  user: {
-    color: "white",
-    padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-    borderRadius: theme.radius.sm,
-    transition: "background-color 100ms ease",
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
-      color: "black",
-    },
-  },
-
-  userActive: {
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
-  },
-}));
-
 const links = [
   { link: "/", label: "Home" },
   { link: "/password-generator", label: "Generate Password" },
@@ -142,11 +33,52 @@ const links = [
   { link: "/user/vault", label: "Vault" },
 ];
 
-const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({
-  to,
-  item,
-  onClick,
-}) => {
+const CustomLink: React.FC<{
+  to: string;
+  item: any;
+  onClick: any;
+  noHero?: boolean;
+}> = ({ to, item, onClick, noHero }) => {
+  const useStyles = createStyles((theme) => ({
+    link: {
+      display: "block",
+      lineHeight: 1,
+      padding: "8px 12px",
+      borderRadius: theme.radius.sm,
+      textDecoration: "none",
+      color:
+        theme.colorScheme === "dark"
+          ? theme.colors.dark[0]
+          : theme.colors.gray[7],
+      fontSize: theme.fontSizes.sm,
+      fontWeight: 500,
+
+      "&:hover": {
+        boxShadow: `0 0 0 1px ${
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[8]
+            : theme.colors.gray[0]
+        }`,
+        backgroundColor: noHero ? theme.colors.gray[3] : "transparent",
+      },
+
+      [theme.fn.smallerThan("sm")]: {
+        borderRadius: 0,
+        padding: theme.spacing.md,
+      },
+    },
+
+    linkActive: {
+      "&, &:hover": {
+        backgroundColor: theme.fn.variant({
+          variant: "light",
+          color: theme.primaryColor,
+        }).background,
+        color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
+          .color,
+      },
+    },
+  }));
   const { classes, cx } = useStyles();
   const resolvedPath = useResolvedPath(to);
   const match = useMatch({ path: resolvedPath.pathname, end: true });
@@ -160,14 +92,87 @@ const CustomLink: React.FC<{ to: string; item: any; onClick: any }> = ({
       key={item.label}
       onClick={onClick}
     >
-      <Text color={match?.pathname === item.link ? "black" : "white"}>
+      <Text color={match?.pathname === item.link || noHero ? "black" : "white"}>
         {item.label}
       </Text>
     </Link>
   );
 };
 
-const UserHeaderMenu: React.FC = () => {
+interface UserHeaderMenuProps {
+  noHero?: boolean;
+}
+
+const UserHeaderMenu: React.FC<UserHeaderMenuProps> = ({ noHero }) => {
+  const useStyles = createStyles((theme) => ({
+    root: {
+      width: "100%",
+      position: "relative",
+      zIndex: 2500,
+      backgroundColor: "transparent",
+    },
+
+    dropdown: {
+      position: "absolute",
+      top: HEADER_HEIGHT,
+      left: 0,
+      right: 0,
+      zIndex: 0,
+      borderTopRightRadius: 0,
+      borderTopLeftRadius: 0,
+      borderTopWidth: 0,
+      overflow: "hidden",
+
+      [theme.fn.largerThan("sm")]: {
+        display: "none",
+      },
+    },
+
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      height: "100%",
+      width: "90%",
+      maxWidth: 1200,
+    },
+
+    links: {
+      [theme.fn.smallerThan("sm")]: {
+        display: "none",
+      },
+    },
+
+    burger: {
+      [theme.fn.largerThan("sm")]: {
+        display: "none",
+      },
+    },
+
+    hiddenMobile: {
+      [theme.fn.smallerThan("sm")]: {
+        display: "none",
+      },
+    },
+
+    user: {
+      color: noHero ? "black" : "white",
+      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
+      borderRadius: theme.radius.sm,
+      transition: "background-color 100ms ease",
+
+      "&:hover": {
+        backgroundColor:
+          theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+        color: "black",
+      },
+    },
+
+    userActive: {
+      backgroundColor:
+        theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+    },
+  }));
   const [opened, { toggle, close }] = useDisclosure(false);
   const { classes, cx } = useStyles();
   const [userMenuOpened, setUserMenuOpened] = useState(false);
@@ -175,11 +180,21 @@ const UserHeaderMenu: React.FC = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   const items = links.map((link) => (
-    <CustomLink to={link.link} item={link} key={link.label} onClick={close} />
+    <CustomLink
+      to={link.link}
+      item={link}
+      key={link.label}
+      onClick={close}
+      noHero={noHero}
+    />
   ));
 
   return (
-    <Header height={HEADER_HEIGHT} className={classes.root}>
+    <Header
+      height={HEADER_HEIGHT}
+      className={classes.root}
+      withBorder={noHero ? true : false}
+    >
       <Container className={classes.header}>
         <img src={LOGO} alt="logo" width="50" height="50" />
         <Group spacing={5} className={classes.links}>

@@ -4,7 +4,7 @@ import { UserLogin, UserHeaderMenu } from "../../components";
 const UserLoginPage: React.FC = () => {
   return (
     <Box>
-      <UserHeaderMenu />
+      <UserHeaderMenu noHero={true} />
       <UserLogin />
     </Box>
   );

@@ -4,8 +4,6 @@ import {
   Title,
   Text,
   TextInput,
-  ActionIcon,
-  useMantineTheme,
   Select,
   Flex,
   Loader,
@@ -20,19 +18,17 @@ import { showNotification, updateNotification } from "@mantine/notifications";
 import {
   IconAlertCircle,
   IconAlertTriangle,
-  IconArrowLeft,
-  IconArrowRight,
   IconCheck,
   IconDots,
   IconSearch,
-  IconX,
 } from "@tabler/icons";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BreachAPI from "../../api/BreachAPI";
 import UserAPI from "../../api/UserAPI";
-import { HomeStats, UserHeaderMenu, HomeHero } from "../../components";
+import { HomeStats, UserHeaderMenu, Hero } from "../../components";
 import { Dots } from "./Dots";
+import HOME_BACKGROUND from "../../assets/home-background.jpg";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -140,7 +136,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Home: React.FC = () => {
-  const theme = useMantineTheme();
   const [selectOption, setSelectOption] = useState<string | null>("email");
   const [value, setValue] = useState<string>("");
   const [isBreachedTrue, setIsBreachedTrue] = useState<boolean>(false);
@@ -398,7 +393,15 @@ const Home: React.FC = () => {
   return (
     <Box>
       <UserHeaderMenu />
-      <HomeHero />
+      <Hero
+        background={HOME_BACKGROUND}
+        title={"Check if Your Personal Data Has Been Compromised"}
+        description={
+          "Have you ever wondered if your personal data, such as your email address or password, has been stolen and sold on the dark web? With our powerful search engine, you can quickly and easily check if your data has been compromised in a data breach."
+        }
+        buttonLabel={"Check Now!"}
+        buttonLink={"#check"}
+      />
       <Box>
         <Paper shadow="md" p="xs" m="md" ta="center" mih={650}>
           <HomeStats

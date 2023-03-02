@@ -13,6 +13,8 @@ import {
   Progress,
   Text,
   Title,
+  createStyles,
+  Container,
 } from "@mantine/core";
 import {
   IconAlertTriangle,
@@ -25,7 +27,98 @@ import generator from "generate-password-browser";
 import { showNotification } from "@mantine/notifications";
 import StatsGridCrackTime from "../StatsGridCrackTime";
 import React from "react";
+import { Dots } from "./Dots";
 const zxcvbn = require("zxcvbn");
+
+const useStyles = createStyles((theme) => ({
+  wrapper: {
+    position: "relative",
+    paddingTop: 50,
+    paddingBottom: 30,
+
+    "@media (max-width: 755px)": {
+      paddingTop: 80,
+      paddingBottom: 60,
+    },
+  },
+
+  inner: {
+    position: "relative",
+    zIndex: 1,
+  },
+
+  dots: {
+    position: "absolute",
+    color:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[5]
+        : theme.colors.gray[1],
+
+    "@media (max-width: 755px)": {
+      display: "none",
+    },
+  },
+
+  dotsLeft: {
+    left: 0,
+    top: 0,
+  },
+
+  title: {
+    textAlign: "center",
+    fontWeight: 800,
+    fontSize: 40,
+    letterSpacing: -1,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+    marginBottom: theme.spacing.xs,
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+
+    "@media (max-width: 520px)": {
+      fontSize: 28,
+      textAlign: "left",
+    },
+  },
+
+  highlight: {
+    color:
+      theme.colors[theme.primaryColor][theme.colorScheme === "dark" ? 4 : 6],
+  },
+
+  description: {
+    textAlign: "center",
+
+    "@media (max-width: 520px)": {
+      textAlign: "left",
+      fontSize: theme.fontSizes.md,
+    },
+  },
+
+  controls: {
+    marginTop: theme.spacing.lg,
+    display: "flex",
+    justifyContent: "center",
+
+    "@media (max-width: 520px)": {
+      flexDirection: "column",
+    },
+  },
+
+  control: {
+    "&:not(:first-of-type)": {
+      marginLeft: theme.spacing.md,
+    },
+
+    "@media (max-width: 520px)": {
+      height: 42,
+      fontSize: theme.fontSizes.md,
+
+      "&:not(:first-of-type)": {
+        marginTop: theme.spacing.md,
+        marginLeft: 0,
+      },
+    },
+  },
+}));
 
 interface PasswordGeneratorProps {
   length: number | undefined;
@@ -52,6 +145,7 @@ const generatePassword = ({
 };
 
 const PasswordGenerator: React.FC = () => {
+  const { classes } = useStyles();
   const [password, setPassword] = useState<string>(
     generatePassword({
       length: 10,
@@ -116,7 +210,65 @@ const PasswordGenerator: React.FC = () => {
     ));
 
   return (
-    <Box mt={10} mb={10}>
+    <Box mt={10} mb={10} id="password-generator">
+      <Container className={classes.wrapper} size={1400}>
+        <Dots className={classes.dots} style={{ left: 0, top: 0 }} />
+        <Dots className={classes.dots} style={{ left: 60, top: 0 }} />
+        <Dots className={classes.dots} style={{ left: 0, top: 140 }} />
+        <Dots className={classes.dots} style={{ right: 0, top: 60 }} />
+
+        <div className={classes.inner}>
+          <Title className={classes.title}>
+            <Text
+              component="span"
+              className={classes.highlight}
+              inherit
+              variant="gradient"
+              gradient={{ from: "pink", to: "yellow" }}
+            >
+              Password Generator
+            </Text>{" "}
+            and{" "}
+            <Text
+              component="span"
+              className={classes.highlight}
+              inherit
+              variant="gradient"
+              gradient={{ from: "blue", to: "cyan" }}
+            >
+              Strength Checker
+            </Text>
+          </Title>
+
+          <Container p={0} size="lg" mt={20}>
+            <Text size="lg" color="dimmed" className={classes.description}>
+              Creating a strong and unique password is essential for keeping
+              your online accounts secure. Our password generator allows you to
+              select the types of characters you want to include in your
+              password such as uppercase letters, lowercase letters, numbers,
+              and symbols, and choose your desired length using the slider.
+            </Text>
+            <br />
+            <Text size="lg" color="dimmed" className={classes.description}>
+              To ensure that your password is strong enough, we use a password
+              strength estimator inspired by password crackers. This estimator
+              uses pattern matching and conservative estimation to recognize and
+              weigh common passwords, names, surnames, English words from
+              Wikipedia, US television and movies, as well as other patterns
+              like dates, repeats (aaa), sequences (abcd), keyboard patterns
+              (qwertyuiop), and l33t speak.
+            </Text>
+            <br />
+            <Text size="lg" color="dimmed" className={classes.description}>
+              Our password generator will provide you with a strong, unique
+              password that will help protect your online accounts. You can even
+              check the estimated crack time for your password to get an idea of
+              just how secure it is. So generate your password now and rest
+              assured that your accounts are protected!
+            </Text>
+          </Container>
+        </div>
+      </Container>
       <Card
         shadow="sm"
         p="lg"
@@ -135,9 +287,6 @@ const PasswordGenerator: React.FC = () => {
           w="100%"
           h="120px"
         >
-          <Title order={1} mb={10}>
-            Password Generator and Strength Checker
-          </Title>
           <TextInput
             placeholder="Password"
             value={password}

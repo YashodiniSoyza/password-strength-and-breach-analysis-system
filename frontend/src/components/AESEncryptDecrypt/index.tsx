@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  createStyles,
   Select,
   SimpleGrid,
   Textarea,
@@ -10,6 +11,17 @@ import {
 } from "@mantine/core";
 import { useState } from "react";
 var CryptoJS = require("crypto-js");
+
+const useStyles = createStyles((theme) => ({
+  title: {
+    fontFamily: `Greycliff CF, ${theme.fontFamily}`,
+    fontSize: 36,
+    fontWeight: 900,
+    lineHeight: 1.1,
+    marginBottom: theme.spacing.md,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+}));
 
 const keySize = 256;
 const iterations = 100;
@@ -53,15 +65,9 @@ const decrypt = (data: any, iKey: any, mode: any) => {
   });
   return decrypted.toString(CryptoJS.enc.Utf8);
 };
-const a = encrypt("hello 1 EBC", "1", "ECB");
-const b = decrypt(a, "1", "ECB");
-console.log(b);
-
-const c = encrypt("hello 2 CBC", "1", "CBC");
-const d = decrypt(c, "1", "CBC");
-console.log(d);
 
 const AESEncryptDecrypt: React.FC = () => {
+  const { classes } = useStyles();
   const [dataEncrypt, setDataEncrypt] = useState<string>("");
   const [modeEncrypt, setModeEncrypt] = useState<string | null>("ECB");
   const [keyEncrypt, setKeyEncrypt] = useState<string>("");
@@ -72,22 +78,19 @@ const AESEncryptDecrypt: React.FC = () => {
   const [keyDecrypt, setKeyDecrypt] = useState<string>("");
   const [outputDecrypt, setOutputDecrypt] = useState<string>("");
   return (
-    <Box p="xl">
-      <Title order={1} ta="center">
-        AES Encryption and Decryption Tool
-      </Title>
+    <Box p="xl" id="aes">
       <SimpleGrid
         cols={2}
         spacing="xl"
-        mt={20}
+        mt={10}
         breakpoints={[
           { maxWidth: "lg", cols: 2 },
           { maxWidth: "md", cols: 1 },
         ]}
       >
         <Card shadow="xs" p="lg" radius="md" withBorder>
-          <Title order={2} ta="center" mt={10}>
-            Encrypt
+          <Title order={2} ta="center" mt={10} className={classes.title}>
+            AES Encryption Tool
           </Title>
           <Textarea
             label="Enter text to be Encrypted"
@@ -96,6 +99,7 @@ const AESEncryptDecrypt: React.FC = () => {
             value={dataEncrypt}
             onChange={(e) => setDataEncrypt(e.target.value)}
             mt={10}
+            required
           />
           <Select
             label="Select Cipher Mode of Encryption"
@@ -106,12 +110,14 @@ const AESEncryptDecrypt: React.FC = () => {
             value={modeEncrypt}
             onChange={setModeEncrypt}
             mt={10}
+            required
           />
           <TextInput
             label="Enter Secret Key"
             value={keyEncrypt}
             onChange={(e) => setKeyEncrypt(e.target.value)}
             mt={10}
+            required
           />
           <Button
             onClick={() => {
@@ -126,8 +132,8 @@ const AESEncryptDecrypt: React.FC = () => {
           <Textarea label="Output" autosize minRows={5} value={outputEncrypt} />
         </Card>
         <Card shadow="xs" p="lg" radius="md" withBorder>
-          <Title order={2} ta="center" mt={10}>
-            Decrypt
+          <Title order={2} ta="center" mt={10} className={classes.title}>
+            AES Decryption Tool
           </Title>
           <Textarea
             label="Enter text to be Decrypted"
@@ -136,6 +142,7 @@ const AESEncryptDecrypt: React.FC = () => {
             value={dataDecrypt}
             onChange={(e) => setDataDecrypt(e.target.value)}
             mt={10}
+            required
           />
           <Select
             label="Select Cipher Mode of Decryption"
@@ -146,12 +153,14 @@ const AESEncryptDecrypt: React.FC = () => {
             value={modeDecrypt}
             onChange={setModeDecrypt}
             mt={10}
+            required
           />
           <TextInput
             label="Enter Secret Key used for Encryption"
             value={keyDecrypt}
             onChange={(e) => setKeyDecrypt(e.target.value)}
             mt={10}
+            required
           />
           <Button
             onClick={() => {

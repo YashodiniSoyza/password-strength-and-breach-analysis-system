@@ -1,10 +1,9 @@
 import { Box } from "@mantine/core";
-import { Vault, UserHeaderMenu } from "../../components";
+import { Vault } from "../../components";
 
 const VaultPage: React.FC = () => {
   return (
     <Box>
-      <UserHeaderMenu />
       <Vault />
     </Box>
   );

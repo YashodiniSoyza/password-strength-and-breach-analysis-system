@@ -4,7 +4,7 @@ import { UserSettings, UserHeaderMenu } from "../../components";
 const UserSettingsPage: React.FC = () => {
   return (
     <Box>
-      <UserHeaderMenu />
+      <UserHeaderMenu noHero={true} />
       <UserSettings />
     </Box>
   );

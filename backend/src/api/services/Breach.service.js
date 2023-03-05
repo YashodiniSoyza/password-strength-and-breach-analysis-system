@@ -151,6 +151,17 @@ export const checkForBreachesWithPhone = async (phone) => {
     });
 };
 
+export const checkForBreachesWithHash = async (hash) => {
+  return await leakedData
+    .find({ hash: hash }, { _id: 0, breachId: 1 })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 module.exports = {
   createBreach,
   getBreach,
@@ -163,5 +174,6 @@ module.exports = {
   checkForBreachesWithUsername,
   checkForBreachesWithEmail,
   checkForBreachesWithPhone,
+  checkForBreachesWithHash,
   getBreachesByIds,
 };

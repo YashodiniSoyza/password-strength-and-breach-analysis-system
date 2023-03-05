@@ -940,7 +940,7 @@ const ManageBreaches: React.FC = () => {
             />
             <TextInput
               label="Order of Columns (separated by comma)"
-              placeholder="Enter order of columns, e.g. email,password,username,phone"
+              placeholder="Enter order of columns, e.g. email,password,username,phone,hash"
               required
               {...importForm.getInputProps("fileColumns")}
             />

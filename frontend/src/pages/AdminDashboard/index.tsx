@@ -163,20 +163,6 @@ const AdminDashboard: React.FC = () => {
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               icon: "password",
             },
-            {
-              label: "pwned usernames",
-              stats: homeStats.usernames
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-              icon: "username",
-            },
-            {
-              label: "pwned phone numbers",
-              stats: homeStats.phoneNumbers
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-              icon: "phone",
-            },
           ]}
           width="75vw"
         />

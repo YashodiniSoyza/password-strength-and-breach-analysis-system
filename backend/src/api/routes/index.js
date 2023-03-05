@@ -88,6 +88,10 @@ const routes = (app) => {
     "/breach/leakedData/phone",
     breachController.checkForBreachesWithPhone
   );
+  app.post(
+    "/breach/leakedData/hash",
+    breachController.checkForBreachesWithHash
+  );
   app.post("/breach/getByIds", breachController.getBreachesByIds);
 
   app.post("/vault", protect.userProtect, vaultController.getVaultByUserId);

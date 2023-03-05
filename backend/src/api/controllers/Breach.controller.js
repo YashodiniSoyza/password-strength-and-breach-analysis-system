@@ -159,6 +159,7 @@ export const importBreaches = async (req, res, next) => {
         password: leakedData[i].password ? leakedData[i].password : "",
         username: leakedData[i].username ? leakedData[i].username : "",
         phone: leakedData[i].phone ? leakedData[i].phone : "",
+        hash: leakedData[i].hash ? leakedData[i].hash : "",
       };
       leakedDataFinal.push(finalOBd);
     }
@@ -245,6 +246,20 @@ export const checkForBreachesWithPhone = async (req, res, next) => {
     });
 };
 
+export const checkForBreachesWithHash = async (req, res, next) => {
+  const { hash } = req.body;
+  await breachService
+    .checkForBreachesWithHash(hash)
+    .then((data) => {
+      req.handleResponse.successRespond(res)(data);
+      next();
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 export const getBreachesByIds = async (req, res, next) => {
   const { ids } = req.body;
   const idsArray = ids.split(",");
@@ -272,5 +287,6 @@ module.exports = {
   checkForBreachesWithUsername,
   checkForBreachesWithEmail,
   checkForBreachesWithPhone,
+  checkForBreachesWithHash,
   getBreachesByIds,
 };

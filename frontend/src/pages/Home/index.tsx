@@ -344,6 +344,43 @@ const Home: React.FC = () => {
           });
           setIsLoading(false);
         });
+    } else if (selectOption === "hash") {
+      BreachAPI.searchHash(value)
+        .then(async (res) => {
+          const breachIds = res.data.map((breach: any) => breach.breachId);
+          const uniqueBreachIds = breachIds.filter(
+            (item: any, index: any) => breachIds.indexOf(item) === index
+          );
+          if (uniqueBreachIds.length !== 0) {
+            const breaches = await BreachAPI.getBreachesByIds(uniqueBreachIds);
+            setBreaches(breaches.data);
+            setIsBreachedTrue(true);
+          } else {
+            setIsBreachedFalse(true);
+          }
+          updateNotification({
+            id: "searching",
+            color: "teal",
+            title: "Search complete!",
+            message:
+              "We have successfully searched for your hash in our databases.",
+            icon: <IconCheck size={16} />,
+            autoClose: 3000,
+          });
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          updateNotification({
+            id: "searching",
+            color: "red",
+            title: "Search failed!",
+            message:
+              "We have failed to search for your hash in our databases. Please try again later.",
+            icon: <IconAlertTriangle size={16} />,
+            autoClose: 3000,
+          });
+          setIsLoading(false);
+        });
     }
   };
 
@@ -471,6 +508,7 @@ const Home: React.FC = () => {
                   { label: "Username", value: "username" },
                   { label: "Phone number", value: "phone" },
                   { label: "Password", value: "password" },
+                  { label: "Hash", value: "hash" },
                 ]}
                 value={selectOption}
                 onChange={(value) => {

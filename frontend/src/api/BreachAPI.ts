@@ -118,6 +118,17 @@ class BreachAPI {
     );
   }
 
+  static searchHash(hash: string) {
+    const obj = {
+      hash: hash,
+    };
+    return axios.post(
+      `${BASE_URL}/breach/leakedData/hash`,
+      obj,
+      requestConfigJson
+    );
+  }
+
   static getBreachesByIds(ids: string[]) {
     const idsString = ids.join(",");
     const obj = {

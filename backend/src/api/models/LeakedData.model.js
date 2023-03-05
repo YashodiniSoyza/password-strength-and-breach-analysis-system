@@ -26,6 +26,10 @@ const LeakedDataSchema = new Schema(
       type: String,
       default: "",
     },
+    hash: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

@@ -3,6 +3,7 @@ import userController from "../controllers/User.controller";
 import breachController from "../controllers/Breach.controller";
 import vaultController from "../controllers/Vault.controller";
 import statsController from "../controllers/Stats.controller";
+import ipCheckController from "../controllers/IPCheck.controller";
 import protect from "../middleware/Auth.middleware";
 
 const routes = (app) => {
@@ -98,6 +99,9 @@ const routes = (app) => {
     protect.adminProtect,
     statsController.adminDashboardStats
   );
+
+  app.get("/ip/check/:ip", ipCheckController.checkIP);
+  app.get("/ip/reports/:ip", ipCheckController.getReports);
 };
 
 export default routes;

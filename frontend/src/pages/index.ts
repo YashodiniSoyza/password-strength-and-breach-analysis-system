@@ -11,6 +11,7 @@ import UserLoginPage from "./UserLogin";
 import UserSignUpPage from "./UserSignUp";
 import VaultPage from "./Vault";
 import UserSettingsPage from "./UserSettings/indes";
+import IPCheck from "./IPCheck";
 
 export {
   Home,
@@ -26,4 +27,5 @@ export {
   UserSignUpPage,
   VaultPage,
   UserSettingsPage,
+  IPCheck,
 };

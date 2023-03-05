@@ -36,6 +36,7 @@ const links = [
   { link: "/password-generator", label: "Generate Password" },
   { link: "/encrypt-decrypt/aes", label: "Encrypt and Decrypt" },
   { link: "/user/vault", label: "Vault" },
+  { link: "/ip-check", label: "IP Check" },
 ];
 
 const CustomLink: React.FC<{

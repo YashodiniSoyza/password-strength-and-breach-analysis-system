@@ -2,7 +2,6 @@ import {
   TextInput,
   PasswordInput,
   Checkbox,
-  Anchor,
   Paper,
   Title,
   Text,
@@ -121,9 +120,12 @@ const UserLogin: React.FC = () => {
           />
           <Group position="apart" mt="md">
             <Checkbox label="Remember me" {...form.getInputProps("remember")} />
-            <Anchor<"a"> href="/admin-forget-password" size="sm">
+            <Link
+              to="/user/forgot-password"
+              style={{ textDecoration: "inherit", fontSize: "0.9rem" }}
+            >
               Forgot password?
-            </Anchor>
+            </Link>
           </Group>
           <Button fullWidth mt="xl" type="submit">
             Sign in

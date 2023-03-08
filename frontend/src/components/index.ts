@@ -17,6 +17,8 @@ import UserSignUp from "./UserSignUp";
 import Vault from "./Vault";
 import UserSettings from "./UserSettings";
 import Hero from "./Hero";
+import UserForgotPassword from "./UserForgotPassword";
+import AdminForgotPassword from "./AdminForgotPassword";
 
 export {
   Logout,
@@ -38,4 +40,6 @@ export {
   Vault,
   UserSettings,
   Hero,
+  UserForgotPassword,
+  AdminForgotPassword,
 };

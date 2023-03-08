@@ -173,6 +173,41 @@ export const changePassword = async (req, res, next) => {
       next();
     });
 };
+
+export const forgotPassword = async (req, res, next) => {
+  await userService
+    .checkEmail(req.body.email)
+    .then(async (data) => {
+      const salt = await bcrypt.genSalt(10);
+      const password = generator.generate({
+        length: 10,
+        numbers: true,
+      });
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const user = {
+        password: hashedPassword,
+      };
+
+      await userService
+        .updateUser(data._id, user)
+        .then(async (data) => {
+          emailService.sendPassword(req.body.email, password);
+
+          req.handleResponse.successRespond(res)(data);
+          next();
+        })
+        .catch((err) => {
+          req.handleResponse.errorRespond(res)(err);
+          next();
+        });
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 module.exports = {
   createUser,
   getUser,
@@ -183,4 +218,5 @@ module.exports = {
   verifyUser,
   signupUser,
   changePassword,
+  forgotPassword,
 };

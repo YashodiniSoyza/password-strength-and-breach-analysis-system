@@ -20,6 +20,7 @@ const routes = (app) => {
     protect.adminProtect,
     adminController.changePassword
   );
+  app.post("/admin/forgot-password", adminController.forgotPassword);
 
   //User Routes
   app.post("/user/login", userController.loginUser);
@@ -43,6 +44,7 @@ const routes = (app) => {
     protect.userProtect,
     userController.changePassword
   );
+  app.post("/user/forgot-password", userController.forgotPassword);
 
   //Breach Routes
   app.post("/breach", protect.adminProtect, breachController.createBreach);

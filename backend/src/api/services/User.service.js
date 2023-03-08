@@ -185,6 +185,21 @@ export const changePassword = async (id, password) => {
   }
 };
 
+export const checkEmail = async (email) => {
+  return await user
+    .findOne({ email: email })
+    .then((data) => {
+      if (data) {
+        return data;
+      } else {
+        throw new Error("Email not found");
+      }
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 export default {
   createUser,
   getUser,
@@ -195,4 +210,5 @@ export default {
   verifyUser,
   signupUser,
   changePassword,
+  checkEmail,
 };

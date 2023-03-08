@@ -155,6 +155,21 @@ export const changePassword = async (id, password) => {
   }
 };
 
+export const checkEmail = async (email) => {
+  return await admin
+    .findOne({ email: email })
+    .then((data) => {
+      if (data) {
+        return data;
+      } else {
+        throw new Error("Email not found");
+      }
+    })
+    .catch((err) => {
+      throw new Error(err.message);
+    });
+};
+
 export default {
   createAdmin,
   getAdmin,
@@ -164,4 +179,5 @@ export default {
   loginAdmin,
   verifyAdmin,
   changePassword,
+  checkEmail,
 };

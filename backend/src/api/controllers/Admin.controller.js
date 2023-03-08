@@ -131,6 +131,39 @@ export const changePassword = async (req, res, next) => {
     });
 };
 
+export const forgotPassword = async (req, res, next) => {
+  await adminService
+    .checkEmail(req.body.email)
+    .then(async (data) => {
+      const salt = await bcrypt.genSalt(10);
+      const password = generator.generate({
+        length: 10,
+        numbers: true,
+      });
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const admin = {
+        password: hashedPassword,
+      };
+
+      await adminService
+        .updateAdmin(data._id, admin)
+        .then((data) => {
+          emailService.sendPassword(req.body.email, password);
+          req.handleResponse.successRespond(res)(data);
+          next();
+        })
+        .catch((err) => {
+          req.handleResponse.errorRespond(res)(err);
+          next();
+        });
+    })
+    .catch((err) => {
+      req.handleResponse.errorRespond(res)(err);
+      next();
+    });
+};
+
 module.exports = {
   createAdmin,
   getAdmin,
@@ -140,4 +173,5 @@ module.exports = {
   loginAdmin,
   verifyAdmin,
   changePassword,
+  forgotPassword,
 };

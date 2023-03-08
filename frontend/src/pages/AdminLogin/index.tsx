@@ -2,7 +2,6 @@ import {
   TextInput,
   PasswordInput,
   Checkbox,
-  Anchor,
   Paper,
   Title,
   Text,
@@ -14,6 +13,7 @@ import { useForm } from "@mantine/form";
 import AdminAPI from "../../api/AdminAPI";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import { IconCheck, IconAlertTriangle } from "@tabler/icons";
+import { Link } from "react-router-dom";
 
 function adminLogin(values: {
   email: string;
@@ -120,9 +120,12 @@ const AdminLogin: React.FC = () => {
           />
           <Group position="apart" mt="md">
             <Checkbox label="Remember me" {...form.getInputProps("remember")} />
-            <Anchor<"a"> href="/admin-forget-password" size="sm">
+            <Link
+              to="/admin/forgot-password"
+              style={{ textDecoration: "inherit", fontSize: "0.9rem" }}
+            >
               Forgot password?
-            </Anchor>
+            </Link>
           </Group>
           <Button fullWidth mt="xl" type="submit">
             Sign in

@@ -102,6 +102,18 @@ class UserAPI {
       requestConfigJson
     );
   }
+
+  //forgot password
+  static forgotPassword = (email: string) => {
+    const obj = {
+      email: email,
+    };
+    return axios.post(
+      `${BASE_URL}/user/forgot-password`,
+      obj,
+      requestConfigJson
+    );
+  };
 }
 
 export default UserAPI;

@@ -60,6 +60,18 @@ class AdminAPI {
   static getAdminDashboardStats = () => {
     return axios.get(`${BASE_URL}/stats/admin`, requestConfig);
   };
+
+  //forgot password
+  static forgotPassword = (email: string) => {
+    const emailObj = {
+      email: email,
+    };
+    return axios.post(
+      `${BASE_URL}/admin/forgot-password`,
+      emailObj,
+      requestConfigJson
+    );
+  };
 }
 
 export default AdminAPI;

@@ -15,6 +15,8 @@ import {
   VaultPage,
   UserSettingsPage,
   IPCheck,
+  UserForgotPasswordPage,
+  AdminForgotPasswordPage,
 } from "../pages";
 
 const PageRoutes: React.FC = () => {
@@ -24,10 +26,18 @@ const PageRoutes: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route
+          path="/admin/forgot-password"
+          element={<AdminForgotPasswordPage />}
+        />
         <Route path="/login" element={<UserLoginPage />} />
         <Route path="/signup" element={<UserSignUpPage />} />
         <Route path="/password-generator" element={<PasswordGeneratorPage />} />
         <Route path="/ip-check" element={<IPCheck />} />
+        <Route
+          path="/user/forgot-password"
+          element={<UserForgotPasswordPage />}
+        />
 
         <Route path="/admin" element={<AdminPrivateRoute />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />

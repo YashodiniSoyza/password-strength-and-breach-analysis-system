@@ -373,18 +373,19 @@ const IPCheck: React.FC = () => {
                           marginLeft: 10,
                         }}
                       >
-                        <Image
-                          src={
-                            data.countryCode
-                              ? `https://www.countryflags.io/${data.countryCode}/flat/64.png`
-                              : "https://www.countryflags.io/Unknown/flat/64.png"
-                          }
-                          w={20}
-                          h={20}
-                          mr={10}
-                        />
-                        {data.countryCode ? data.countryCode : "Unknown"}
+                        {data.countryCode
+                          ? countries.getName(data.countryCode, "en")
+                          : "Unknown"}
                       </Text>
+                      <ReactCountryFlag
+                        countryCode={data.countryCode}
+                        svg
+                        style={{
+                          width: "1.5em",
+                          height: "1.5em",
+                          marginLeft: 10,
+                        }}
+                      />
                     </Flex>
                   </Box>
                   <Text size="lg" color="dimmed" ml={30} mt={20}>

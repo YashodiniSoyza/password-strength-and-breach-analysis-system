@@ -244,6 +244,7 @@ const Home: React.FC = () => {
           if (uniqueBreachIds.length !== 0) {
             const breaches = await BreachAPI.getBreachesByIds(uniqueBreachIds);
             setBreaches(breaches.data);
+            setIsBreachedTrue(true);
           } else {
             setIsBreachedFalse(true);
           }

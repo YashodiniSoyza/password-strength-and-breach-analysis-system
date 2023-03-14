@@ -56,6 +56,7 @@ interface BreachedData {
   password: string;
   username: string;
   phone: string;
+  hash: string;
 }
 
 const getAllBreaches = async () => {
@@ -1019,6 +1020,15 @@ const ManageBreaches: React.FC = () => {
                     >
                       Phone
                     </Th>
+                    <Th
+                      sorted={breachedDataSortBy === "hash"}
+                      reversed={breachedDataReverseSortDirection}
+                      onSort={() => {
+                        setSortingForBreachedData("hash");
+                      }}
+                    >
+                      Hash
+                    </Th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1065,6 +1075,15 @@ const ManageBreaches: React.FC = () => {
                             </Badge>
                           ) : (
                             row.phone
+                          )}
+                        </td>
+                        <td>
+                          {row.hash === "" ? (
+                            <Badge variant="outline" color="red">
+                              Not Available
+                            </Badge>
+                          ) : (
+                            row.hash
                           )}
                         </td>
                       </tr>

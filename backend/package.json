@@ -11,6 +11,7 @@
     "csv": "^6.2.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.4.0",
     "formidable": "^2.1.1",
     "generate-password": "^1.7.0",
     "helmet": "^7.1.0",

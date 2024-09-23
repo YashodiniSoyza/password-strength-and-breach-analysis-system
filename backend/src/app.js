@@ -8,9 +8,16 @@ import { connect } from "./utils/database.connection";
 
 const app = express();
 const PORT = process.env.PORT || "8090";
+const CORS_ORIGIN = process.env.CORS_ORIGIN || "http://localhost:3000";
 
 // Register Middleware Chain
-app.use(cors());
+app.use(
+  cors({
+    origin: CORS_ORIGIN,
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

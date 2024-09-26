@@ -135,13 +135,21 @@ const AdminDashboard: React.FC = () => {
         <StatsGrid data={stats} />
         <HomeStats
           data={[
+            // {
+            //   label: "Toatal Breaches",
+            //   stats: homeStats.breaches
+            //     .toString()
+            //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            //   icon: "breach",
+            // },
+
+            // Format the number safely
             {
-              label: "Toatal Breaches",
-              stats: homeStats.breaches
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              label: "Total Breaches",
+              stats: new Intl.NumberFormat().format(homeStats.breaches),
               icon: "breach",
             },
+
             {
               label: "Total accounts",
               stats: homeStats.accounts

@@ -39,7 +39,8 @@ interface AdminData {
   createdAt: string;
 }
 
-//Get all admin records from the database
+//!Get all admin records from the database
+// Fetch all user records
 const getAllAdmin = async () => {
   const response = await AdminAPI.getAdmins();
   const data = await response.data;

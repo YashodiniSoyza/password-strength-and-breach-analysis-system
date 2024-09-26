@@ -5,7 +5,8 @@ import requestConfigJson from "./configJson";
 const BASE_URL = "http://localhost:8090";
 
 class AdminAPI {
-  //Admin Login
+  //!Admin Login
+  // Authenticates a user
   static adminLogin = (email: string, password: string) => {
     let credentials = {
       email: email,
@@ -15,19 +16,23 @@ class AdminAPI {
     return axios.post(`${BASE_URL}/admin/login`, credentials);
   };
 
-  //get all admins
+  //!get all admins
+  // Retrieves a list of users
   static getAdmins = () => {
     return axios.get(`${BASE_URL}/admin`, requestConfig);
   };
-  //add admin
+  //!add admin
+  // Creates a new user
   static addAdmin = (values: { name: string; email: string }) => {
     return axios.post(`${BASE_URL}/admin`, values, requestConfigJson);
   };
-  //delete admin
+  //!delete admin
+  // Deletes a user by ID
   static deleteAdmin = (id: string) => {
     return axios.delete(`${BASE_URL}/admin/${id}`, requestConfig);
   };
-  //update admin
+  //!update admin
+  // Updates user information
   static editAdmin = (values: { id: string; name: string; email: string }) => {
     let admin = {
       name: values.name,
@@ -39,7 +44,8 @@ class AdminAPI {
       requestConfigJson
     );
   };
-  //update admin password
+  //!update admin password
+  // Changes user password
   static changeAdminPassword(adminPassword: {
     id: string;
     currentPassword: string;
@@ -56,12 +62,14 @@ class AdminAPI {
     );
   }
 
-  //get admin dashboard stats
+  //!get admin dashboard stats
+  // Fetches system statistics
   static getAdminDashboardStats = () => {
     return axios.get(`${BASE_URL}/stats/admin`, requestConfig);
   };
 
-  //forgot password
+  //!forgot password
+  // Initiates password recovery
   static forgotPassword = (email: string) => {
     const emailObj = {
       email: email,

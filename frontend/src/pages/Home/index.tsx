@@ -451,11 +451,18 @@ const Home: React.FC = () => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "breach",
               },
+              // {
+              //   label: "Total accounts",
+              //   stats: stats.accounts
+              //     .toString()
+              //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              //   icon: "user",
+              // },
+
+              // Format the number safely
               {
                 label: "Total accounts",
-                stats: stats.accounts
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.accounts),
                 icon: "user",
               },
               //Sasindu - IT21279966
@@ -469,13 +476,13 @@ const Home: React.FC = () => {
               // },
 
               //Fixed code,
+
               {
                 label: "pwned emails",
                 stats: new Intl.NumberFormat().format(stats.emails),
                 icon: "email",
               },
-              
-              
+
               // {
               //   label: "pwned passwords",
               //   stats: stats.passwords
@@ -488,7 +495,7 @@ const Home: React.FC = () => {
                 label: "pwned passwords",
                 stats: new Intl.NumberFormat().format(stats.passwords),
                 icon: "password",
-              },              
+              },
             ]}
             width="100%"
           />

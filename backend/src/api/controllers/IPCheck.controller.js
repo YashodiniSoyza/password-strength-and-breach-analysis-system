@@ -3,6 +3,9 @@ const BASE_URL = "https://api.abuseipdb.com/api/v2";
 const API_KEY =
   "f2c3afb716768f8682440d39bb5e6ab3b9a6325949a53de4c24b47a9a983c1c5577fb722fc785499";
 
+//To fix CORs issues,
+const allowedOrigins = process.env.CORS_ORIGIN;
+
 export const checkIP = async (req, res, next) => {
   const { ip } = req.params;
   axios
@@ -29,12 +32,14 @@ export const checkIP = async (req, res, next) => {
 
 export const getReports = async (req, res, next) => {
   const { ip } = req.params;
+  const origin = req.get('origin'); //To fix issue
   axios
     .get(`${BASE_URL}/reports`, {
       headers: {
         Key: API_KEY,
         Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",  //fixed
+        "Access-Control-Allow-Origin": allowedOrigins.includes(origin) ? origin : undefined,
       },
       params: {
         ipAddress: ip,

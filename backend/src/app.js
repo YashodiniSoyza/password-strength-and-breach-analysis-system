@@ -28,7 +28,21 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(helmet());
+// fix Content Security Policy (CSP) misconfiguration
+app.use(
+  helmet.contentSecurityPolicy({
+    directives:{
+      defaultSrc: ["'self'"], // Only allow content from the same origin
+      scriptSrc: ["'self'"],  // Allow only scripts from your local server
+      styleSrc: ["'self'"],   // Allow only styles from your local server
+      imgSrc: ["'self'", "data:"], // Allow images from your local server and inline data URIs
+      fontSrc: ["'self'"],    // Allow only local fonts
+      connectSrc: ["'self'", "http://localhost:5000"], // Allow API calls to the backend
+      frameAncestors: ["'none'"], // Prevent clickjacking by disallowing framing
+      objectSrc: ["'none'"],  // Disallow embedding of objects like Flash
+    }
+  })
+);
 
 // Inject Response Handler
 app.use((req, res, next) => {

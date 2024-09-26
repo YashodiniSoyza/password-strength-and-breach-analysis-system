@@ -27,6 +27,9 @@ const API_KEY =
 //     });
 // };
 
+//To fix CORs issues,
+const allowedOrigins = process.env.CORS_ORIGIN;
+
 export const checkIP = async (req, res, next) => {
   const { ip } = req.params;
   const origin = req.get("origin"); //To fix issue
@@ -57,12 +60,16 @@ export const checkIP = async (req, res, next) => {
 
 export const getReports = async (req, res, next) => {
   const { ip } = req.params;
+  const origin = req.get("origin"); //To fix issue
   axios
     .get(`${BASE_URL}/reports`, {
       headers: {
         Key: API_KEY,
         Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",  //fixed
+        "Access-Control-Allow-Origin": allowedOrigins.includes(origin)
+          ? origin
+          : undefined,
       },
       params: {
         ipAddress: ip,

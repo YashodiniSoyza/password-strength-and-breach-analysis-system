@@ -7,8 +7,11 @@ import "dotenv/config";
 import routes from "./api/routes";
 import responseHandler from "./utils/response.handler";
 import { connect } from "./utils/database.connection";
-import mongoSanitize from "express-mongo-sanitize";  
-import xssClean from "xss-clean";  
+import mongoSanitize from "express-mongo-sanitize";
+import xssClean from "xss-clean";
+import auth from "./api/middleware/oauth.js";
+const passport = require("passport");
+const session = require("express-session");
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -21,11 +24,18 @@ const limiter = rateLimit({
 
 // Register Middleware Chain
 app.use(limiter);
+
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+app.use(session({ secret: SESSION_SECRET }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(
   cors({
-    origin: CORS_ORIGIN,
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
+    origin : CORS_ORIGIN,
+    methods : ["POST", "GET", "DELETE", "PUT"],
+    credentials: true, // Allow credentials
   })
 );
 
@@ -35,22 +45,22 @@ app.use(mongoSanitize());
 // Sanitize input to prevent XSS
 app.use(xssClean());
 
-app.use(express.json({limit : "500kb"})); // limit JSON body to 500KB to prevent DoS
-app.use(express.urlencoded({ extended: true,limit : "500kb" })); // limit URL-encoded body to 500KB to prevent DoS
+app.use(express.json({ limit: "500kb" })); // limit JSON body to 500KB to prevent DoS
+app.use(express.urlencoded({ extended: false, limit: "500kb" })); // limit URL-encoded body to 500KB to prevent DoS
 
 // fix Content Security Policy (CSP) misconfiguration
 app.use(
   helmet.contentSecurityPolicy({
-    directives:{
+    directives: {
       defaultSrc: ["'self'"], // Only allow content from the same origin
-      scriptSrc: ["'self'"],  // Allow only scripts from your local server
-      styleSrc: ["'self'"],   // Allow only styles from your local server
+      scriptSrc: ["'self'"], // Allow only scripts from your local server
+      styleSrc: ["'self'"], // Allow only styles from your local server
       imgSrc: ["'self'", "data:"], // Allow images from your local server and inline data URIs
-      fontSrc: ["'self'"],    // Allow only local fonts
+      fontSrc: ["'self'"], // Allow only local fonts
       connectSrc: ["'self'", "http://localhost:5000"], // Allow API calls to the backend
       frameAncestors: ["'none'"], // Prevent clickjacking by disallowing framing
-      objectSrc: ["'none'"],  // Disallow embedding of objects like Flash
-    }
+      objectSrc: ["'none'"], // Disallow embedding of objects like Flash
+    },
   })
 );
 
@@ -68,6 +78,26 @@ app.get("/", (req, res, next) => {
   next();
 });
 
+// google auth route
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+app.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "/login/success",
+    failureRedirect: "/login/failed",
+  })
+);
+
+app.get("/login/success", (req, res) => {
+  res.redirect("http://localhost:3000");;
+});
+
+app.get("/login/failed", (req, res) => {
+  res.status(500).json({ status: false, message: "login failed" });
+});
 //Start the Server
 app.listen(PORT, () => {
   logger.info(`Server started on port ${PORT}`);

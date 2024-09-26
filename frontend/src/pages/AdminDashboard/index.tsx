@@ -142,11 +142,19 @@ const AdminDashboard: React.FC = () => {
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               icon: "breach",
             },
+            // VULNERABILITY
+            // {
+            //   label: "Total accounts",
+            //   stats: homeStats.accounts
+            //     .toString()
+            //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            //   icon: "user",
+            // },
+
+            // IT21244698 Fixing regex by using Intl.NumberFormat API
             {
               label: "Total accounts",
-              stats: homeStats.accounts
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              stats: new Intl.NumberFormat("en-US").format(homeStats.accounts),
               icon: "user",
             },
             {
@@ -156,11 +164,19 @@ const AdminDashboard: React.FC = () => {
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               icon: "email",
             },
+            // VULNERABILITY
+            // {
+            //   label: "pwned passwords",
+            //   stats: homeStats.passwords
+            //     .toString()
+            //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            //   icon: "password",
+            // },
+
+            // IT21244698 Fixing regex by using Intl.NumberFormat API
             {
               label: "pwned passwords",
-              stats: homeStats.passwords
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              stats: new Intl.NumberFormat("en-US").format(homeStats.passwords),
               icon: "password",
             },
           ]}

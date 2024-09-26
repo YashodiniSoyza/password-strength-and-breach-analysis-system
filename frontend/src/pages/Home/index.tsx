@@ -458,20 +458,37 @@ const Home: React.FC = () => {
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 icon: "user",
               },
+              //Sasindu - IT21279966
+              // Security issue that can lead to denial of service by backtracking
+              // {
+              //   label: "pwned emails",
+              //   stats: stats.emails
+              //     .toString()
+              //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              //   icon: "email",
+              // },
+
+              //Fixed code,
               {
                 label: "pwned emails",
-                stats: stats.emails
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.emails),
                 icon: "email",
               },
+              
+              
+              // {
+              //   label: "pwned passwords",
+              //   stats: stats.passwords
+              //     .toString()
+              //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+              //   icon: "password",
+              // },
+              //Fixed code
               {
                 label: "pwned passwords",
-                stats: stats.passwords
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                stats: new Intl.NumberFormat().format(stats.passwords),
                 icon: "password",
-              },
+              },              
             ]}
             width="100%"
           />

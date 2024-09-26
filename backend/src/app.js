@@ -7,6 +7,8 @@ import "dotenv/config";
 import routes from "./api/routes";
 import responseHandler from "./utils/response.handler";
 import { connect } from "./utils/database.connection";
+import mongoSanitize from "express-mongo-sanitize";  
+import xssClean from "xss-clean";  
 
 const app = express();
 const PORT = process.env.PORT || "8090";
@@ -26,8 +28,16 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// Sanitize incoming data to prevent NoSQL Injection
+app.use(mongoSanitize());
+
+// Sanitize input to prevent XSS
+app.use(xssClean());
+
+app.use(express.json({limit : "500kb"})); // limit JSON body to 500KB to prevent DoS
+app.use(express.urlencoded({ extended: true,limit : "500kb" })); // limit URL-encoded body to 500KB to prevent DoS
+
 // fix Content Security Policy (CSP) misconfiguration
 app.use(
   helmet.contentSecurityPolicy({

@@ -12,8 +12,9 @@ import {
 import { useForm } from "@mantine/form";
 import UserAPI from "../../api/UserAPI";
 import { showNotification, updateNotification } from "@mantine/notifications";
-import { IconCheck, IconAlertTriangle } from "@tabler/icons";
-import { Link } from "react-router-dom";
+import { IconCheck, IconAlertTriangle, IconBrandGoogle } from "@tabler/icons";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function userLogin(values: {
   email: string;
@@ -62,6 +63,8 @@ function userLogin(values: {
 }
 
 const UserLogin: React.FC = () => {
+  const navigate = useNavigate();
+
   if (localStorage.getItem("role")) {
     if (localStorage.getItem("role") === "user") {
       window.location.href = "/";
@@ -131,6 +134,17 @@ const UserLogin: React.FC = () => {
             Sign in
           </Button>
         </form>
+        <form action="http://localhost:8090/auth/google">
+            <Button
+              leftIcon={<IconBrandGoogle />}
+              variant="filled"
+              fullWidth
+              mt="xl"
+              type="submit"
+            >
+              Sign in with google
+            </Button>
+          </form>
         <Group position="center" mt="md">
           <Text color="dimmed" size="sm">
             Don't have an account?

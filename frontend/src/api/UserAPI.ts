@@ -15,6 +15,11 @@ class UserAPI {
     return axios.post(`${BASE_URL}/user/login`, credentials);
   };
 
+  //User Login
+  // static userOAuthLogin = async() => {
+  //   return ;
+  // };
+
   //user signup
   static userSignUp = (values: {
     firstName: string;
